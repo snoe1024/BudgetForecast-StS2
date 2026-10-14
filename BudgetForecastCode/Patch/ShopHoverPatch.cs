@@ -12,6 +12,7 @@ namespace BudgetForecast.BudgetForecastCode.Patch;
 internal static class ShopHoverPatch
 {
     [HarmonyPostfix]
+    [HarmonyPriority(Priority.Last)]
     private static void Postfix(NNormalMapPoint __instance)
     {
         if (__instance.Point.PointType != MapPointType.Shop) return;
@@ -28,6 +29,7 @@ internal static class ShopHoverPatch
             if (path == null) return;
             var estimate = CombatGoldCalculator.Sum(path, run.AscensionLevel);
             ForecastLog.Write(current, path, player.Gold, run.AscensionLevel, estimate);
+            ForecastHoverTip.Show(__instance, player.Gold, estimate);
         }
         catch (Exception exception)
         {
