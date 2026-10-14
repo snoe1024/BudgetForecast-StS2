@@ -1,6 +1,7 @@
 {
   "BUDGETFORECAST_SHOP.title": "Oro al llegar a la tienda",
-  "BUDGETFORECAST_SHOP.description": "{strategy}\nMínimo: {minimum}G\nMedia: {average}G\nMantén Shift y usa la rueda para cambiar de estrategia",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p][p]Mínimo: {minimum}G{averageLine}[/p][p]Mantén Shift y usa la rueda para cambiar de estrategia[/p]",
+  "BUDGETFORECAST_SHOP.average": "\nMedia: {average}G",
   "BUDGETFORECAST_STRATEGY.Balance": "Ruta equilibrada",
   "BUDGETFORECAST_STRATEGY.MinimizeCombats": "Combates mínimos",
   "BUDGETFORECAST_STRATEGY.MaximizeRest": "Descansos máximos",

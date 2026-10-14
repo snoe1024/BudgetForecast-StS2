@@ -22,6 +22,7 @@ internal static class RoutePreview
         public MapPoint? Source;
         public IReadOnlyList<MapPoint>? Path;
         public RouteStrategy Strategy = RouteStrategy.Balance;
+        public bool ShowAverage;
     }
 
     private static readonly ConditionalWeakTable<NMapScreen, ScreenState> Screens = new();
@@ -45,6 +46,7 @@ internal static class RoutePreview
         state.Run = run;
         state.Source = source;
         state.Path = path;
+        state.ShowAverage = Input.IsKeyPressed(Key.Shift);
         if (!GodotObject.IsInstanceValid(state.Line))
         {
             var parent = screen.GetNode<Control>("TheMap");
@@ -68,7 +70,7 @@ internal static class RoutePreview
         {
             var estimate = CombatGoldCalculator.Sum(path, run.AscensionLevel);
             ForecastLog.Write(source, path, player.Gold, run.AscensionLevel, estimate, state.Strategy.ToString());
-            ForecastHoverTip.Show(owner, player.Gold, estimate, state.Strategy);
+            ForecastHoverTip.Show(owner, player.Gold, estimate, state.Strategy, state.ShowAverage);
         }
         state.Line.DefaultColor = RouteStrategies.Color(state.Strategy);
         UpdatePoints(screen, state);
@@ -124,6 +126,15 @@ internal static class RoutePreview
                 return;
             }
             UpdatePoints(screen, state); // Follow resize/point animations without recalculating the route.
+            var showAverage = Input.IsKeyPressed(Key.Shift);
+            if (state.ShowAverage != showAverage)
+            {
+                state.ShowAverage = showAverage;
+                var player = LocalContext.GetMe(state.Run);
+                if (player != null)
+                    ForecastHoverTip.Show(state.Owner, player.Gold,
+                        CombatGoldCalculator.Sum(state.Path!, state.Run.AscensionLevel), state.Strategy, showAverage);
+            }
         }
         catch (Exception exception)
         {

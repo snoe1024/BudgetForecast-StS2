@@ -19,12 +19,20 @@ internal static class ForecastHoverTip
     }
     private static readonly ConditionalWeakTable<NNormalMapPoint, OwnedTip> OwnedTips = new();
 
-    public static void Show(NNormalMapPoint owner, int currentGold, GoldEstimate estimate, RouteStrategy strategy)
+    public static void Show(NNormalMapPoint owner, int currentGold, GoldEstimate estimate, RouteStrategy strategy,
+        bool showAverage)
     {
         if (NHoverTipSet.shouldBlockHoverTips) return;
         var description = new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.description");
         description.Add("minimum", (currentGold + estimate.Minimum).ToString("0.#", CultureInfo.InvariantCulture));
-        description.Add("average", (currentGold + estimate.Average).ToString("0.#", CultureInfo.InvariantCulture));
+        var averageLine = "";
+        if (showAverage)
+        {
+            var average = new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.average");
+            average.Add("average", (currentGold + estimate.Average).ToString("0.#", CultureInfo.InvariantCulture));
+            averageLine = average.GetFormattedText();
+        }
+        description.Add("averageLine", averageLine);
         description.Add("strategy", new LocString("static_hover_tips", "BUDGETFORECAST_STRATEGY." + strategy));
         var hoverTip = new HoverTip(new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.title"), description);
 
@@ -67,6 +75,11 @@ internal static class ForecastHoverTip
         {
             if (!GodotObject.IsInstanceValid(owner) || !GodotObject.IsInstanceValid(tip) ||
                 owner.IsQueuedForDeletion() || tip.IsQueuedForDeletion()) return;
+            // Shift can change the card height. Refresh the native flow area before aligning it.
+            if (GodotObject.IsInstanceValid(owned.Card)) owned.Card!.ResetSize();
+            var container = tip.GetNode<Control>("textHoverTipContainer");
+            var height = container.GetChildren().OfType<Control>().Sum(card => card.Size.Y + 5f);
+            container.Size = new Vector2(container.Size.X, Math.Min(height, owner.GetViewportRect().Size.Y - 50f));
             tip.SetAlignment(owner, HoverTip.GetHoverTipAlignment(owner));
             tip.SetFollowOwner();
         }).CallDeferred();
