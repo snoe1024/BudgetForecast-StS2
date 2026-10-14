@@ -1,4 +1,9 @@
 {
   "BUDGETFORECAST_SHOP.title": "상점 도착 시 골드",
-  "BUDGETFORECAST_SHOP.description": "최솟값: {minimum}G\n평균값: {average}G"
+  "BUDGETFORECAST_SHOP.description": "{strategy}\n최솟값: {minimum}G\n평균값: {average}G\nShift를 누른 채 스크롤하여 전략을 전환합니다",
+  "BUDGETFORECAST_STRATEGY.Balance": "균형 경로",
+  "BUDGETFORECAST_STRATEGY.MinimizeCombats": "전투 최소화 경로",
+  "BUDGETFORECAST_STRATEGY.MaximizeRest": "휴식 최대화 경로",
+  "BUDGETFORECAST_STRATEGY.MaximizeEvents": "이벤트 최대화 경로",
+  "BUDGETFORECAST_STRATEGY.MaximizeElites": "엘리트 최대화 경로"
 }

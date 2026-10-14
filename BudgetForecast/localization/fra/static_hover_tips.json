@@ -1,4 +1,9 @@
 {
   "BUDGETFORECAST_SHOP.title": "Or à l’arrivée à la boutique",
-  "BUDGETFORECAST_SHOP.description": "Minimum : {minimum}G\nMoyenne : {average}G"
+  "BUDGETFORECAST_SHOP.description": "{strategy}\nMinimum : {minimum}G\nMoyenne : {average}G\nMaintenez Shift et faites défiler pour changer de stratégie",
+  "BUDGETFORECAST_STRATEGY.Balance": "Itinéraire équilibré",
+  "BUDGETFORECAST_STRATEGY.MinimizeCombats": "Combats minimum",
+  "BUDGETFORECAST_STRATEGY.MaximizeRest": "Repos maximum",
+  "BUDGETFORECAST_STRATEGY.MaximizeEvents": "Événements maximum",
+  "BUDGETFORECAST_STRATEGY.MaximizeElites": "Élites maximum"
 }

@@ -1,4 +1,9 @@
 {
   "BUDGETFORECAST_SHOP.title": "Gold bei Ankunft im Laden",
-  "BUDGETFORECAST_SHOP.description": "Minimum: {minimum}G\nDurchschnitt: {average}G"
+  "BUDGETFORECAST_SHOP.description": "{strategy}\nMinimum: {minimum}G\nDurchschnitt: {average}G\nShift halten und scrollen, um die Strategie zu wechseln",
+  "BUDGETFORECAST_STRATEGY.Balance": "Ausgewogene Route",
+  "BUDGETFORECAST_STRATEGY.MinimizeCombats": "Route mit den wenigsten Kämpfen",
+  "BUDGETFORECAST_STRATEGY.MaximizeRest": "Route mit den meisten Rastplätzen",
+  "BUDGETFORECAST_STRATEGY.MaximizeEvents": "Route mit den meisten Ereignissen",
+  "BUDGETFORECAST_STRATEGY.MaximizeElites": "Route mit den meisten Eliten"
 }

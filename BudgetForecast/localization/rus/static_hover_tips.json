@@ -1,4 +1,9 @@
 {
   "BUDGETFORECAST_SHOP.title": "Золото по прибытии в магазин",
-  "BUDGETFORECAST_SHOP.description": "Минимум: {minimum}G\nСреднее: {average}G"
+  "BUDGETFORECAST_SHOP.description": "{strategy}\nМинимум: {minimum}G\nСреднее: {average}G\nУдерживайте Shift и прокручивайте колесо для смены стратегии",
+  "BUDGETFORECAST_STRATEGY.Balance": "Сбалансированный маршрут",
+  "BUDGETFORECAST_STRATEGY.MinimizeCombats": "Минимум боёв",
+  "BUDGETFORECAST_STRATEGY.MaximizeRest": "Максимум отдыха",
+  "BUDGETFORECAST_STRATEGY.MaximizeEvents": "Максимум событий",
+  "BUDGETFORECAST_STRATEGY.MaximizeElites": "Максимум элит"
 }

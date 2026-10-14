@@ -1,4 +1,9 @@
 {
   "BUDGETFORECAST_SHOP.title": "抵達商店時的金幣",
-  "BUDGETFORECAST_SHOP.description": "最低值：{minimum}G\n平均值：{average}G"
+  "BUDGETFORECAST_SHOP.description": "{strategy}\n最低值：{minimum}G\n平均值：{average}G\n按住 Shift 並滾動滑鼠滾輪切換策略",
+  "BUDGETFORECAST_STRATEGY.Balance": "均衡路線",
+  "BUDGETFORECAST_STRATEGY.MinimizeCombats": "戰鬥最少路線",
+  "BUDGETFORECAST_STRATEGY.MaximizeRest": "休息最多路線",
+  "BUDGETFORECAST_STRATEGY.MaximizeEvents": "事件最多路線",
+  "BUDGETFORECAST_STRATEGY.MaximizeElites": "菁英最多路線"
 }

@@ -1,4 +1,9 @@
 {
   "BUDGETFORECAST_SHOP.title": "ショップ到着時の所持金",
-  "BUDGETFORECAST_SHOP.description": "最低値: {minimum}G\n平均値: {average}G"
+  "BUDGETFORECAST_SHOP.description": "{strategy}\n最低値: {minimum}G\n平均値: {average}G\nShift＋ホイールで戦略を切り替え",
+  "BUDGETFORECAST_STRATEGY.Balance": "バランスルート",
+  "BUDGETFORECAST_STRATEGY.MinimizeCombats": "戦闘最小化ルート",
+  "BUDGETFORECAST_STRATEGY.MaximizeRest": "休憩最大化ルート",
+  "BUDGETFORECAST_STRATEGY.MaximizeEvents": "イベント最大化ルート",
+  "BUDGETFORECAST_STRATEGY.MaximizeElites": "エリート最大化ルート"
 }
