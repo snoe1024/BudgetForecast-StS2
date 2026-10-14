@@ -94,9 +94,9 @@ internal static class RoutePreview
         for (var i = 0; i < route.Length; i++)
         {
             var node = nodes[route[i].coord];
-            // Match NMapScreen.GetLineEndpoint, transformed into the line's parent space.
-            var offset = node is NNormalMapPoint ? Vector2.Zero : node.Size * 0.5f;
-            positions[i] = state.Line!.ToLocal(node.GetGlobalTransform() * offset);
+            // Icons have their own size, pivot, hover scale and rotation. Connect their visual centers.
+            var icon = node.GetNodeOrNull<Control>("%Icon") ?? node;
+            positions[i] = state.Line!.ToLocal(icon.GetGlobalTransform() * (icon.Size * 0.5f));
         }
         state.Line!.Points = positions;
     }
