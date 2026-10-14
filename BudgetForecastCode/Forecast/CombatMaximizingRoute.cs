@@ -4,6 +4,7 @@ namespace BudgetForecast.BudgetForecastCode.Forecast;
 
 internal static class CombatMaximizingRoute
 {
+    public const string StrategyId = "max-combats";
     // Return only future nodes, excluding the current room and including the destination.
     // Memoized longest weighted path through the upward map DAG. Ties use column order.
     public static IReadOnlyList<MapPoint>? Find(MapPoint current, MapPoint shop)

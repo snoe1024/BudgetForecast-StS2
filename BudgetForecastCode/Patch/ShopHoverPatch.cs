@@ -25,11 +25,13 @@ internal static class ShopHoverPatch
             var current = run.CurrentMapPoint;
             var player = LocalContext.GetMe(run);
             if (current == null || player == null) return;
-            var path = CombatMaximizingRoute.Find(current, __instance.Point);
+            var path = RoutePreview.GetRoute(screen, run, current, __instance.Point, out var cacheHit);
             if (path == null) return;
+            MainFile.Logger.Info($"Route cache {(cacheHit ? "hit" : "miss")}: shop=({__instance.Point.coord.col},{__instance.Point.coord.row}); strategy={CombatMaximizingRoute.StrategyId}");
             var estimate = CombatGoldCalculator.Sum(path, run.AscensionLevel);
             ForecastLog.Write(current, path, player.Gold, run.AscensionLevel, estimate);
             ForecastHoverTip.Show(__instance, player.Gold, estimate);
+            RoutePreview.Show(screen, __instance, run, current, path);
         }
         catch (Exception exception)
         {
