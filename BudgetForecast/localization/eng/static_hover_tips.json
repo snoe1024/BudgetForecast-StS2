@@ -1,7 +1,9 @@
 {
   "BUDGETFORECAST_SHOP.title": "Gold on arrival at the shop",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p][p]Minimum: {minimum}G{averageLine}[/p][p]Hold Shift and scroll to switch strategy[/p]",
-  "BUDGETFORECAST_SHOP.average": "\nAverage: {average}G",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Hold Shift and scroll to switch strategy[/p]",
+  "BUDGETFORECAST_SHOP.gold": "Minimum: {minimum}G{averageLine}",
+  "BUDGETFORECAST_SHOP.average": ", Average: {average}G",
+  "BUDGETFORECAST_SHOP.deletion": "{icon}: {gold}G",
   "BUDGETFORECAST_STRATEGY.Balance": "Balanced route",
   "BUDGETFORECAST_STRATEGY.MinimizeCombats": "Minimum combat route",
   "BUDGETFORECAST_STRATEGY.MaximizeRest": "Maximum rest route",

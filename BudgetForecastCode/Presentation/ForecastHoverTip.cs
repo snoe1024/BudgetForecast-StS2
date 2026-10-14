@@ -7,6 +7,11 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Nodes.HoverTips;
 using MegaCrit.Sts2.Core.Nodes.Screens.Map;
+using MegaCrit.Sts2.Core.Runs;
+using MegaCrit.Sts2.Core.Platform;
+using MegaCrit.Sts2.Core.Multiplayer.Game;
+using MegaCrit.Sts2.Core.Helpers;
+using MegaCrit.Sts2.Core.Models.Relics;
 
 namespace BudgetForecast.BudgetForecastCode.Presentation;
 
@@ -19,20 +24,43 @@ internal static class ForecastHoverTip
     }
     private static readonly ConditionalWeakTable<NNormalMapPoint, OwnedTip> OwnedTips = new();
 
-    public static void Show(NNormalMapPoint owner, int currentGold, GoldEstimate estimate, RouteStrategy strategy,
+    public static void Show(NNormalMapPoint owner, IRunState run, GoldEstimate estimate, RouteStrategy strategy,
         bool showAverage)
     {
         if (NHoverTipSet.shouldBlockHoverTips) return;
         var description = new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.description");
-        description.Add("minimum", (currentGold + estimate.Minimum).ToString("0.#", CultureInfo.InvariantCulture));
-        var averageLine = "";
-        if (showAverage)
+        var multiplayer = RunManager.Instance.NetService.Type.IsMultiplayer() || run.Players.Count > 1;
+        var rows = run.Players.Select(player => new PlayerForecastDisplay(
+            multiplayer ? PlatformUtil.GetPlayerName(RunManager.Instance.NetService.Platform, player.NetId)
+                .Replace("\r", " ").Replace("\n", " ") : "",
+            multiplayer ? InlineIcon(player.Character.IconTexture.ResourcePath) : "",
+            player.Gold + estimate.Minimum, player.Gold + estimate.Average, CardRemovalForecast.ForPlayer(player),
+            DiscountRelicIcons: string.Join(" ", player.Relics
+                .Where(relic => !relic.IsMelted && relic is MembershipCard or TheCourier)
+                .OrderBy(relic => relic is MembershipCard ? 0 : 1)
+                .Select(relic => InlineIcon(relic.IconPath)))));
+        string GoldLine(decimal minimum, decimal? averageGold)
         {
-            var average = new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.average");
-            average.Add("average", (currentGold + estimate.Average).ToString("0.#", CultureInfo.InvariantCulture));
-            averageLine = average.GetFormattedText();
+            var line = new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.gold");
+            line.Add("minimum", minimum.ToString("0.#", CultureInfo.InvariantCulture));
+            var averageText = "";
+            if (averageGold.HasValue)
+            {
+                var average = new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.average");
+                average.Add("average", averageGold.Value.ToString("0.#", CultureInfo.InvariantCulture));
+                averageText = average.GetFormattedText();
+            }
+            line.Add("averageLine", averageText);
+            return line.GetFormattedText();
         }
-        description.Add("averageLine", averageLine);
+        string DeletionLine(int gold)
+        {
+            var line = new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.deletion");
+            line.Add("icon", InlineIcon(ImageHelper.GetImagePath("ui/reward_screen/reward_icon_card_removal.png")));
+            line.Add("gold", gold.ToString(CultureInfo.InvariantCulture));
+            return line.GetFormattedText();
+        }
+        description.Add("players", PlayerForecastParagraphs.Build(rows, multiplayer, showAverage, GoldLine, DeletionLine));
         description.Add("strategy", new LocString("static_hover_tips", "BUDGETFORECAST_STRATEGY." + strategy));
         var hoverTip = new HoverTip(new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.title"), description);
 
@@ -85,4 +113,6 @@ internal static class ForecastHoverTip
         }).CallDeferred();
         // Native OnUnfocus / OnPress / TreeExiting remove the owner-associated tip.
     }
+
+    private static string InlineIcon(string path) => $"[img width=24 height=24]{path}[/img]";
 }

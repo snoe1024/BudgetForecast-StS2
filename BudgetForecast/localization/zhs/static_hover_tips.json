@@ -1,7 +1,9 @@
 {
   "BUDGETFORECAST_SHOP.title": "到达商店时的金币",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p][p]最低值：{minimum}G{averageLine}[/p][p]按住Shift并滚动鼠标滚轮切换策略[/p]",
-  "BUDGETFORECAST_SHOP.average": "\n平均值：{average}G",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]按住Shift并滚动鼠标滚轮切换策略[/p]",
+  "BUDGETFORECAST_SHOP.gold": "最低值：{minimum}G{averageLine}",
+  "BUDGETFORECAST_SHOP.average": ", 平均值：{average}G",
+  "BUDGETFORECAST_SHOP.deletion": "{icon}: {gold}G",
   "BUDGETFORECAST_STRATEGY.Balance": "均衡路线",
   "BUDGETFORECAST_STRATEGY.MinimizeCombats": "战斗最少路线",
   "BUDGETFORECAST_STRATEGY.MaximizeRest": "休息最多路线",

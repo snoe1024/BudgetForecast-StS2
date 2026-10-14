@@ -1,7 +1,9 @@
 {
   "BUDGETFORECAST_SHOP.title": "Gold bei Ankunft im Laden",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p][p]Minimum: {minimum}G{averageLine}[/p][p]Shift halten und scrollen, um die Strategie zu wechseln[/p]",
-  "BUDGETFORECAST_SHOP.average": "\nDurchschnitt: {average}G",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift halten und scrollen, um die Strategie zu wechseln[/p]",
+  "BUDGETFORECAST_SHOP.gold": "Minimum: {minimum}G{averageLine}",
+  "BUDGETFORECAST_SHOP.average": ", Durchschnitt: {average}G",
+  "BUDGETFORECAST_SHOP.deletion": "{icon}: {gold}G",
   "BUDGETFORECAST_STRATEGY.Balance": "Ausgewogene Route",
   "BUDGETFORECAST_STRATEGY.MinimizeCombats": "Route mit den wenigsten Kämpfen",
   "BUDGETFORECAST_STRATEGY.MaximizeRest": "Route mit den meisten Rastplätzen",
