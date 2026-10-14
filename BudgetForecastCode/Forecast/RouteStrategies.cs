@@ -47,5 +47,6 @@ internal static class RouteStrategies
     };
 
     public static IReadOnlyList<MapPoint>? Find(MapPoint current, MapPoint shop, RouteStrategy strategy) =>
-        WeightedRoute.Find(current, shop, point => Score(strategy, point.PointType));
+        WeightedRoute.Find(current, shop, point => Score(strategy, point.PointType),
+            strategy == RouteStrategy.Balance ? null : point => BalanceWeights[point.PointType]);
 }

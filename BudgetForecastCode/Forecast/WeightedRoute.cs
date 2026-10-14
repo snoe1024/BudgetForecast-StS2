@@ -5,23 +5,25 @@ namespace BudgetForecast.BudgetForecastCode.Forecast;
 internal static class WeightedRoute
 {
     // Nullable scores distinguish unreachable paths from valid paths with negative weights.
-    public static IReadOnlyList<MapPoint>? Find(MapPoint current, MapPoint shop, Func<MapPoint, int> weight)
+    public static IReadOnlyList<MapPoint>? Find(MapPoint current, MapPoint shop, Func<MapPoint, int> weight,
+        Func<MapPoint, int>? tieBreak = null)
     {
         if (shop.PointType != MapPointType.Shop || shop.coord.row <= current.coord.row) return null;
-        var scores = new Dictionary<MapPoint, int?>();
+        var scores = new Dictionary<MapPoint, (int Primary, int Secondary)?>();
         var next = new Dictionary<MapPoint, MapPoint>();
-        int? Score(MapPoint point)
+        (int Primary, int Secondary)? Score(MapPoint point)
         {
-            if (ReferenceEquals(point, shop)) return 0;
+            if (ReferenceEquals(point, shop)) return (0, 0);
             if (scores.TryGetValue(point, out var cached)) return cached;
-            int? best = null;
+            (int Primary, int Secondary)? best = null;
             foreach (var child in point.Children.OrderBy(p => p.coord.col))
             {
                 if (child.coord.row <= point.coord.row || child.coord.row > shop.coord.row) continue;
                 var remaining = Score(child);
                 if (remaining == null) continue;
-                var score = remaining.Value + weight(child);
-                if (best != null && score <= best.Value) continue;
+                var score = (Primary: remaining.Value.Primary + weight(child),
+                    Secondary: remaining.Value.Secondary + (tieBreak?.Invoke(child) ?? 0));
+                if (best != null && score.CompareTo(best.Value) <= 0) continue;
                 best = score;
                 next[point] = child;
             }
