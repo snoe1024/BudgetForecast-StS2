@@ -10,5 +10,15 @@
   "BUDGETFORECAST_STRATEGY.MaximizeEvents": "Максимум событий",
   "BUDGETFORECAST_STRATEGY.MaximizeElites": "Максимум элит",
   "BUDGETFORECAST_SHOP.choice": "При выборе (одно): {options}",
-  "BUDGETFORECAST_SHOP.obtain": "При получении: {options}"
+  "BUDGETFORECAST_SHOP.obtain": "При получении: {options}",
+  "BUDGETFORECAST_SHOP.cards": "{icon} {count} карт{copies}",
+  "BUDGETFORECAST_SHOP.optionalCards": "При выборе: {icon} {gold}G/карта × до {count}{copies}",
+  "BUDGETFORECAST_SHOP.note.minigame": "(награды мини-игры неизвестны)",
+  "BUDGETFORECAST_SHOP.note.nextDish": "(следующее блюдо неизвестно)",
+  "BUDGETFORECAST_SHOP.note.potions": "(занять свободные ячейки; использовать в магазине)",
+  "BUDGETFORECAST_SHOP.note.carriedPotions": "(сохранить и использовать в магазине)",
+  "BUDGETFORECAST_SHOP.note.foulFight": "(при выборе боя)",
+  "BUDGETFORECAST_SHOP.note.trade": "(разница по прибытии после обмена; без условных эффектов)",
+  "BUDGETFORECAST_SHOP.note.revealed": "(обнаружено; не получено)",
+  "BUDGETFORECAST_SHOP.note.cardsPending": "(ожидается выбор карты)"
 }

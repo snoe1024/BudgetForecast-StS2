@@ -10,5 +10,15 @@
   "BUDGETFORECAST_STRATEGY.MaximizeEvents": "Eventos máximos",
   "BUDGETFORECAST_STRATEGY.MaximizeElites": "Élites máximos",
   "BUDGETFORECAST_SHOP.choice": "Al elegir (solo uno): {options}",
-  "BUDGETFORECAST_SHOP.obtain": "Al obtener: {options}"
+  "BUDGETFORECAST_SHOP.obtain": "Al obtener: {options}",
+  "BUDGETFORECAST_SHOP.cards": "{icon} {count} cartas{copies}",
+  "BUDGETFORECAST_SHOP.optionalCards": "Al elegir: {icon} {gold}G/carta × hasta {count}{copies}",
+  "BUDGETFORECAST_SHOP.note.minigame": "(recompensas del minijuego desconocidas)",
+  "BUDGETFORECAST_SHOP.note.nextDish": "(siguiente plato desconocido)",
+  "BUDGETFORECAST_SHOP.note.potions": "(llenar huecos libres; usar en tienda)",
+  "BUDGETFORECAST_SHOP.note.carriedPotions": "(guardar y usar en tienda)",
+  "BUDGETFORECAST_SHOP.note.foulFight": "(al elegir combate)",
+  "BUDGETFORECAST_SHOP.note.trade": "(diferencia al llegar tras el intercambio; sin efectos condicionales)",
+  "BUDGETFORECAST_SHOP.note.revealed": "(revelado; sin recoger)",
+  "BUDGETFORECAST_SHOP.note.cardsPending": "(elección de carta pendiente)"
 }

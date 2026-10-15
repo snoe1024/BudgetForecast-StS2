@@ -10,5 +10,15 @@
   "BUDGETFORECAST_STRATEGY.MaximizeEvents": "イベント最大化ルート",
   "BUDGETFORECAST_STRATEGY.MaximizeElites": "エリート最大化ルート",
   "BUDGETFORECAST_SHOP.choice": "選択時（いずれか1つ）: {options}",
-  "BUDGETFORECAST_SHOP.obtain": "取得時: {options}"
+  "BUDGETFORECAST_SHOP.obtain": "取得時: {options}",
+  "BUDGETFORECAST_SHOP.cards": "{icon} カード{count}枚{copies}",
+  "BUDGETFORECAST_SHOP.optionalCards": "選択時: {icon} {gold}G/枚 × 最大{count}枚{copies}",
+  "BUDGETFORECAST_SHOP.note.minigame": "（ミニゲーム報酬は未確定）",
+  "BUDGETFORECAST_SHOP.note.nextDish": "（次の料理は未予測）",
+  "BUDGETFORECAST_SHOP.note.potions": "（空き枠に取得しショップで使用）",
+  "BUDGETFORECAST_SHOP.note.carriedPotions": "（保持してショップで使用）",
+  "BUDGETFORECAST_SHOP.note.foulFight": "（戦闘を選んだ場合）",
+  "BUDGETFORECAST_SHOP.note.trade": "（交換後の到着時差分・選択依存効果を除く）",
+  "BUDGETFORECAST_SHOP.note.revealed": "（発見済み・未受取）",
+  "BUDGETFORECAST_SHOP.note.cardsPending": "（カード選択待ち）"
 }

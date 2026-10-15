@@ -1,12 +1,13 @@
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Map;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Relics;
 
 namespace BudgetForecast.BudgetForecastCode.Forecast;
 
 internal sealed record GoldForecastRules(IReadOnlyList<decimal>? GainMultipliers = null,
     bool CannotGainGold = false, IReadOnlyList<int>? CombatBonuses = null,
-    IReadOnlyList<decimal>? FloorBonuses = null);
+    IReadOnlyList<decimal>? FloorBonuses = null, decimal? CardGold = null, bool DoubleCards = false);
 
 internal readonly record struct PlayerGoldPrediction(int CurrentGold, GoldEstimate Gains)
 {
@@ -20,12 +21,17 @@ internal static class PlayerGoldForecaster
         => Predict(player.Gold, player.RunState.AscensionLevel, futurePath, RulesFor(player));
 
     public static GoldForecastRules RulesFor(Player player)
+        => RulesForRelics(player.Relics);
+
+    public static GoldForecastRules RulesForRelics(IEnumerable<RelicModel> relics)
     {
         var multipliers = new List<decimal>();
         var combatBonuses = new List<int>();
         var floorBonuses = new List<decimal>();
         var blocked = false;
-        foreach (var relic in GoldRelics.AcquisitionModifiers(player))
+        decimal? cardGold = null;
+        var doubleCards = false;
+        foreach (var relic in relics.Where(relic => !relic.IsMelted))
         {
             switch (relic)
             {
@@ -33,10 +39,12 @@ internal static class PlayerGoldForecaster
                 case AmethystAubergine aubergine: combatBonuses.Add(aubergine.DynamicVars.Gold.IntValue); break;
                 case MawBank bank when !bank.HasItemBeenBought: floorBonuses.Add(bank.DynamicVars.Gold.BaseValue); break;
                 case Ectoplasm: blocked = true; break;
-                // Lucky Fysh and Seal of Gold are visible reminders only. No future choices/turn counts assumed.
+                case LuckyFysh lucky: cardGold = lucky.DynamicVars.Gold.BaseValue; break;
+                case BingBong: doubleCards = true; break;
+                // No future card choices or turn counts are assumed for route income.
             }
         }
-        return new GoldForecastRules(multipliers, blocked, combatBonuses, floorBonuses);
+        return new GoldForecastRules(multipliers, blocked, combatBonuses, floorBonuses, cardGold, doubleCards);
     }
 
     public static decimal ApplyGain(decimal amount, GoldForecastRules rules)

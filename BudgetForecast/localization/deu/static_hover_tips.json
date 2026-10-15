@@ -10,5 +10,15 @@
   "BUDGETFORECAST_STRATEGY.MaximizeEvents": "Route mit den meisten Ereignissen",
   "BUDGETFORECAST_STRATEGY.MaximizeElites": "Route mit den meisten Eliten",
   "BUDGETFORECAST_SHOP.choice": "Bei Wahl (nur eins): {options}",
-  "BUDGETFORECAST_SHOP.obtain": "Bei Erhalt: {options}"
+  "BUDGETFORECAST_SHOP.obtain": "Bei Erhalt: {options}",
+  "BUDGETFORECAST_SHOP.cards": "{icon} {count} Karten{copies}",
+  "BUDGETFORECAST_SHOP.optionalCards": "Bei Wahl: {icon} {gold}G/Karte × bis zu {count}{copies}",
+  "BUDGETFORECAST_SHOP.note.minigame": "(Minispielbelohnung unbekannt)",
+  "BUDGETFORECAST_SHOP.note.nextDish": "(nächstes Gericht unbekannt)",
+  "BUDGETFORECAST_SHOP.note.potions": "(freie Plätze füllen; im Laden nutzen)",
+  "BUDGETFORECAST_SHOP.note.carriedPotions": "(behalten; im Laden nutzen)",
+  "BUDGETFORECAST_SHOP.note.foulFight": "(bei Kampfwahl)",
+  "BUDGETFORECAST_SHOP.note.trade": "(Ankunftsdifferenz nach Tausch; ohne bedingte Effekte)",
+  "BUDGETFORECAST_SHOP.note.revealed": "(aufgedeckt; nicht abgeholt)",
+  "BUDGETFORECAST_SHOP.note.cardsPending": "(Kartenwahl offen)"
 }

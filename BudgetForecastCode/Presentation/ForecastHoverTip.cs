@@ -34,13 +34,18 @@ internal static class ForecastHoverTip
         var rows = run.Players.Select(player =>
         {
             var prediction = PlayerGoldForecaster.Predict(player, path);
-            var currentRoom = CurrentRoomGoldReader.Read(player);
+            var currentRoom = CurrentRoomGoldReader.Read(player, path);
+            var carried = EventGoldReader.CarriedPotions(player);
+            var details = (currentRoom.Details ?? Array.Empty<ForecastDetail>())
+                .Concat(carried == null ? Array.Empty<ForecastDetail>() : new[] { carried });
             return new PlayerForecastDisplay(
                 multiplayer ? PlatformUtil.GetPlayerName(RunManager.Instance.NetService.Platform, player.NetId)
                     .Replace("\r", " ").Replace("\n", " ") : "",
                 multiplayer ? InlineIcon(player.Character.IconTexture.ResourcePath) : "",
                 prediction.Minimum + currentRoom.Combat.Minimum, prediction.Average + currentRoom.Combat.Average,
-                CardRemovalForecast.ForPlayer(player), CurrentRoomGoldLine: ChoiceLines(currentRoom.Choices),
+                CardRemovalForecast.ForPlayer(player), CurrentRoomGoldLine: string.Join("\n",
+                    new[] { ChoiceLines(currentRoom.Choices), ForecastDetailText.Format(details, showAverage) }
+                    .Where(line => !string.IsNullOrEmpty(line))),
                 DiscountRelicIcons: string.Join(" ", player.Relics
                     .Where(relic => !relic.IsMelted && relic is MembershipCard or TheCourier)
                     .OrderBy(relic => relic is MembershipCard ? 0 : 1)

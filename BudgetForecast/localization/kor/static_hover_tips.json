@@ -10,5 +10,15 @@
   "BUDGETFORECAST_STRATEGY.MaximizeEvents": "이벤트 최대화 경로",
   "BUDGETFORECAST_STRATEGY.MaximizeElites": "엘리트 최대화 경로",
   "BUDGETFORECAST_SHOP.choice": "선택 시 (하나만): {options}",
-  "BUDGETFORECAST_SHOP.obtain": "획득 시: {options}"
+  "BUDGETFORECAST_SHOP.obtain": "획득 시: {options}",
+  "BUDGETFORECAST_SHOP.cards": "{icon} 카드 {count}장{copies}",
+  "BUDGETFORECAST_SHOP.optionalCards": "선택 시: {icon} 장당 {gold}G × 최대 {count}장{copies}",
+  "BUDGETFORECAST_SHOP.note.minigame": "(미니게임 보상 미정)",
+  "BUDGETFORECAST_SHOP.note.nextDish": "(다음 요리 미정)",
+  "BUDGETFORECAST_SHOP.note.potions": "(빈 슬롯에 넣고 상점에서 사용)",
+  "BUDGETFORECAST_SHOP.note.carriedPotions": "(보관 후 상점에서 사용)",
+  "BUDGETFORECAST_SHOP.note.foulFight": "(전투 선택 시)",
+  "BUDGETFORECAST_SHOP.note.trade": "(교환 후 도착 금액 차이, 조건부 효과 제외)",
+  "BUDGETFORECAST_SHOP.note.revealed": "(발견, 미수령)",
+  "BUDGETFORECAST_SHOP.note.cardsPending": "(카드 선택 대기)"
 }

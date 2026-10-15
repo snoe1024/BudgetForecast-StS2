@@ -10,5 +10,15 @@
   "BUDGETFORECAST_STRATEGY.MaximizeEvents": "Maximum event route",
   "BUDGETFORECAST_STRATEGY.MaximizeElites": "Maximum elite route",
   "BUDGETFORECAST_SHOP.choice": "If chosen (one only): {options}",
-  "BUDGETFORECAST_SHOP.obtain": "If obtained: {options}"
+  "BUDGETFORECAST_SHOP.obtain": "If obtained: {options}",
+  "BUDGETFORECAST_SHOP.cards": "{icon} {count} cards{copies}",
+  "BUDGETFORECAST_SHOP.optionalCards": "If picked: {icon} {gold}G/card × up to {count}{copies}",
+  "BUDGETFORECAST_SHOP.note.minigame": "(minigame rewards unknown)",
+  "BUDGETFORECAST_SHOP.note.nextDish": "(next dish unknown)",
+  "BUDGETFORECAST_SHOP.note.potions": "(fill empty slots; use at shop)",
+  "BUDGETFORECAST_SHOP.note.carriedPotions": "(keep and use at shop)",
+  "BUDGETFORECAST_SHOP.note.foulFight": "(if combat is chosen)",
+  "BUDGETFORECAST_SHOP.note.trade": "(arrival change after trade; conditional effects excluded)",
+  "BUDGETFORECAST_SHOP.note.revealed": "(revealed; unclaimed)",
+  "BUDGETFORECAST_SHOP.note.cardsPending": "(card selection pending)"
 }

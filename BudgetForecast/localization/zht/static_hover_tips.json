@@ -10,5 +10,15 @@
   "BUDGETFORECAST_STRATEGY.MaximizeEvents": "事件最多路線",
   "BUDGETFORECAST_STRATEGY.MaximizeElites": "菁英最多路線",
   "BUDGETFORECAST_SHOP.choice": "選擇時（僅一個）: {options}",
-  "BUDGETFORECAST_SHOP.obtain": "獲得時: {options}"
+  "BUDGETFORECAST_SHOP.obtain": "獲得時: {options}",
+  "BUDGETFORECAST_SHOP.cards": "{icon} {count} 張牌{copies}",
+  "BUDGETFORECAST_SHOP.optionalCards": "選牌時: {icon} 每張 {gold}G × 最多 {count} 張{copies}",
+  "BUDGETFORECAST_SHOP.note.minigame": "（小遊戲獎勵未定）",
+  "BUDGETFORECAST_SHOP.note.nextDish": "（下一道菜未知）",
+  "BUDGETFORECAST_SHOP.note.potions": "（裝入空槽並在商店使用）",
+  "BUDGETFORECAST_SHOP.note.carriedPotions": "（保留並在商店使用）",
+  "BUDGETFORECAST_SHOP.note.foulFight": "（選擇戰鬥時）",
+  "BUDGETFORECAST_SHOP.note.trade": "（交換後到達時差額，不含條件效果）",
+  "BUDGETFORECAST_SHOP.note.revealed": "（已發現，未領取）",
+  "BUDGETFORECAST_SHOP.note.cardsPending": "（等待選牌）"
 }

@@ -11,12 +11,14 @@ using MegaCrit.Sts2.Core.Nodes.Screens.Overlays;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
+using MegaCrit.Sts2.Core.Map;
+using MegaCrit.Sts2.Core.Entities.Cards;
 
 namespace BudgetForecast.BudgetForecastCode.Presentation;
 
 internal static class CurrentRoomGoldReader
 {
-    public static CurrentRoomGold Read(Player player)
+    public static CurrentRoomGold Read(Player player, IReadOnlyList<MapPoint> path)
     {
         var run = player.RunState;
         var rules = PlayerGoldForecaster.RulesFor(player);
@@ -29,6 +31,8 @@ internal static class CurrentRoomGoldReader
             if (set?.Player != player) return CurrentRoomGold.Empty;
             return ReadRewards(screen, player, rules);
         }
+        if (EventOverlayGoldReader.Read(player) is { } details)
+            return new CurrentRoomGold(new GoldEstimate(0, 0), Array.Empty<GoldChoice>(), details);
 
         if (run.CurrentRoom is CombatRoom combat && CombatManager.Instance.IsInProgress &&
             combat.CombatState.Players.Contains(player) && !player.Creature.IsDead && combat.Encounter.ShouldGiveRewards)
@@ -43,8 +47,12 @@ internal static class CurrentRoomGoldReader
 
         if (run.CurrentRoom is not EventRoom room) return CurrentRoomGold.Empty;
         // Events is already populated/synchronized by the game, including remote players' ancient choices.
-        var ancient = RunManager.Instance.EventSynchronizer.Events.OfType<AncientEventModel>()
+        var model = RunManager.Instance.EventSynchronizer.Events
             .FirstOrDefault(model => model.Owner == player && model.Id == room.ModelId);
+        if (model is not AncientEventModel ancient)
+            return model == null || !model.IsDeterministic && !model.IsShared && !LocalContext.IsMe(player)
+                ? CurrentRoomGold.Empty : new CurrentRoomGold(new GoldEstimate(0, 0),
+                Array.Empty<GoldChoice>(), EventGoldReader.Read(model, player, path));
         if (ancient == null || ancient.IsFinished || ancient.Description == null) return CurrentRoomGold.Empty;
         // WasChosen is set before the async obtain callback, so hide ALL alternatives immediately.
         if (ancient.CurrentOptions.Any(option => option.WasChosen)) return CurrentRoomGold.Empty;
@@ -60,12 +68,19 @@ internal static class CurrentRoomGoldReader
         var buttons = Traverse.Create(screen).Field("_rewardButtons").GetValue<List<Control>>();
         var gold = new List<int>();
         var choices = new List<GoldChoice>();
+        var cardRewards = 0;
+        var foulPotions = new List<MegaCrit.Sts2.Core.Models.Potions.FoulPotion>();
         foreach (var control in buttons ?? Enumerable.Empty<Control>())
         {
             if (!GodotObject.IsInstanceValid(control) || control.IsQueuedForDeletion()) continue;
+            if (control is NRewardButton { Reward: CardReward { IsPopulated: true, SuccessfullySelected: false } card }
+                && card.Player == player && !card.Cards.Any(candidate => candidate.Pile?.Type == PileType.Deck))
+                cardRewards++;
             if (control is NRewardButton button && Available(button, player))
             {
                 if (button.Reward is GoldReward reward) gold.Add(reward.Amount);
+                else if (button.Reward is PotionReward { Potion: MegaCrit.Sts2.Core.Models.Potions.FoulPotion potion,
+                    ClaimedPotion: null }) foulPotions.Add(potion);
                 else if (button.Reward is RelicReward relicReward && relicReward.ClaimedRelic == null &&
                          relicReward.Relic is { } relic && Option(relic, player, rules) is { } option)
                     choices.Add(new GoldChoice(new[] { option }, ChooseOne: false));
@@ -84,7 +99,18 @@ internal static class CurrentRoomGoldReader
                 if (options.Length > 0) choices.Add(new GoldChoice(options, ChooseOne: true));
             }
         }
-        return new CurrentRoomGold(CurrentRoomGold.DisplayedGold(gold, rules), choices);
+        var hint = EventGoldReader.CardHint(player, cardRewards);
+        var details = new List<ForecastDetail>();
+        if (hint != null) details.Add(new ForecastDetail("", Cards: hint));
+        var potionCount = Math.Min(foulPotions.Count, player.PotionSlots.Count(potion => potion == null));
+        if (potionCount > 0)
+        {
+            var amount = PlayerGoldForecaster.ApplyGain(foulPotions[0].DynamicVars.Gold.BaseValue, rules) * potionCount;
+            details.Add(new ForecastDetail(foulPotions[0].Title.GetFormattedText(), new GoldEstimate(amount, amount),
+                Icons: $"×{potionCount}", Note: "potions"));
+        }
+        return new CurrentRoomGold(CurrentRoomGold.DisplayedGold(gold, rules), choices,
+            details);
     }
 
     private static bool Available(NRewardButton button, Player player)

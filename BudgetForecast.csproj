@@ -36,6 +36,7 @@
 
     <ItemGroup>
         <Compile Remove=".local/**"/>
+        <EmbeddedResource Include="BudgetForecastCode/Forecast/EventRules.json" LogicalName="BudgetForecast.EventRules.json" />
         <Compile Remove="tests/**"/>
         <PackageReference Include="Alchyr.Sts2.BaseLib" Version="*" PrivateAssets="All"/>
         <PackageReference Include="Alchyr.Sts2.ModAnalyzers" Version="*"/>
