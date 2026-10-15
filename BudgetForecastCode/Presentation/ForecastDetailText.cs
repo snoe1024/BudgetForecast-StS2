@@ -9,13 +9,15 @@ namespace BudgetForecast.BudgetForecastCode.Presentation;
 internal static class ForecastDetailText
 {
     public static string Format(IEnumerable<ForecastDetail> details, bool showAverage)
-        => string.Join("\n", details.Select(detail =>
+        => string.Join("\n", ForecastDetailGroups.Build(details).Select(group =>
         {
             var parts = new List<string>();
-            if (!string.IsNullOrEmpty(detail.Title)) parts.Add(detail.Title + ":");
-            if (!string.IsNullOrEmpty(detail.Icons)) parts.Add(detail.Icons);
-            if (detail.Delta is { } delta)
+            if (!string.IsNullOrEmpty(group.Title)) parts.Add(group.Title + ":");
+            parts.AddRange(group.Parts.Select(detail => detail.Icons).Where(icons => !string.IsNullOrEmpty(icons)).Distinct());
+            var deltas = group.Parts.Where(detail => detail.Delta.HasValue).Select(detail => detail.Delta!.Value).ToArray();
+            if (deltas.Length > 0)
             {
+                var delta = new GoldEstimate(deltas.Sum(value => value.Minimum), deltas.Sum(value => value.Average));
                 parts.Add(Signed(delta.Minimum) + "G");
                 if (showAverage && delta.Average != delta.Minimum)
                 {
@@ -24,7 +26,7 @@ internal static class ForecastDetailText
                     parts.Add(mean.GetFormattedText());
                 }
             }
-            if (detail.Cards is { } cards)
+            foreach (var cards in group.Parts.Select(detail => detail.Cards).OfType<CardGoldHint>())
             {
                 var line = new LocString("static_hover_tips", cards.Optional
                     ? "BUDGETFORECAST_SHOP.optionalCards" : "BUDGETFORECAST_SHOP.cards");
@@ -34,8 +36,8 @@ internal static class ForecastDetailText
                 line.Add("copies", cards.Doubled ? " ×2 " + Icon(ModelDb.Relic<BingBong>().IconPath) : "");
                 parts.Add(line.GetFormattedText());
             }
-            if (detail.Note != null)
-                parts.Add(new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.note." + detail.Note).GetFormattedText());
+            foreach (var note in group.Parts.Select(detail => detail.Note).OfType<string>().Distinct())
+                parts.Add(new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.note." + note).GetFormattedText());
             return string.Join(" ", parts);
         }));
 

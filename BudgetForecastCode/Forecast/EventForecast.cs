@@ -6,7 +6,17 @@ namespace BudgetForecast.BudgetForecastCode.Forecast;
 // Semantic output, independent of tooltip layout and game UI objects.
 internal sealed record CardGoldHint(decimal PerCard, int Count, bool Optional, bool Doubled);
 internal sealed record ForecastDetail(string Title, GoldEstimate? Delta = null,
-    CardGoldHint? Cards = null, string Icons = "", string? Note = null);
+    CardGoldHint? Cards = null, string Icons = "", string? Note = null, string? ChoiceKey = null);
+internal sealed record ForecastDetailGroup(string Title, IReadOnlyList<ForecastDetail> Parts);
+
+internal static class ForecastDetailGroups
+{
+    public static IReadOnlyList<ForecastDetailGroup> Build(IEnumerable<ForecastDetail> details)
+        => details.Select((detail, index) => (Detail: detail, Key: detail.ChoiceKey == null
+                ? $"row:{index}" : "choice:" + detail.ChoiceKey))
+            .GroupBy(item => item.Key).Select(group => new ForecastDetailGroup(group.First().Detail.Title,
+                group.Select(item => item.Detail).ToArray())).ToArray();
+}
 internal sealed record EventChoiceSnapshot(string Key, string Title, bool Locked = false, bool Chosen = false);
 internal sealed record EventSnapshot(IReadOnlyList<EventChoiceSnapshot> Choices,
     IReadOnlyDictionary<string, decimal> Vars, int Gold, int DeckCount, int Transformable, int BasicTransformable,
@@ -46,7 +56,7 @@ internal static class EventForecast
     {
         if (state.Finished || state.Choices.Any(choice => choice.Chosen)) return Array.Empty<ForecastDetail>();
         var result = new List<ForecastDetail>();
-        foreach (var choice in state.Choices.Where(choice => !choice.Locked))
+        foreach (var (choice, index) in state.Choices.Select((choice, index) => (choice, index)).Where(item => !item.choice.Locked))
         foreach (var rule in Rules.Where(rule => Matches(rule.Key, choice.Key)))
         {
             // Missing data fails closed, never substitute a canonical/unrolled amount.
@@ -95,11 +105,12 @@ internal static class EventForecast
                 rule.Combat || rule.Potions || cards is { Optional: false };
             if (!hasMoney && cards == null && rule.Note == null) continue;
             result.Add(new ForecastDetail(choice.Title, hasMoney ? new GoldEstimate(min, mean) : null, cards,
-                Icons: rule.Potions ? $"×{count}" : "", Note: rule.Potions ? "potions" : rule.Note));
+                Icons: rule.Potions ? $"×{count}" : "", Note: rule.Potions ? "potions" : rule.Note,
+                ChoiceKey: choice.Key + "#" + index));
             if (state.LuckyGold.HasValue && rule.ExtraOptionalCards > 0)
                 result.Add(new ForecastDetail(choice.Title, Cards: new CardGoldHint(
                     PlayerGoldForecaster.ApplyGain(state.LuckyGold.Value, state.Rules), rule.ExtraOptionalCards,
-                    Optional: true, state.BingBong)));
+                    Optional: true, state.BingBong), ChoiceKey: choice.Key + "#" + index));
         }
         return result;
     }

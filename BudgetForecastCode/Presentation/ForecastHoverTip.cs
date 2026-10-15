@@ -29,6 +29,7 @@ internal static class ForecastHoverTip
         bool showAverage)
     {
         if (NHoverTipSet.shouldBlockHoverTips) return;
+        var width = Math.Min(620f, Math.Max(300f, owner.GetViewportRect().Size.X - 60f));
         var description = new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.description");
         var multiplayer = RunManager.Instance.NetService.Type.IsMultiplayer() || run.Players.Count > 1;
         var rows = run.Players.Select(player =>
@@ -96,7 +97,7 @@ internal static class ForecastHoverTip
             {
                 // Change only our card; do not duplicate or remove other mods' tips on each wheel tick.
                 var label = owned.Card!.GetNode<RichTextLabel>("%Description");
-                if (label.Text == hoverTip.Description) return;
+                if (label.Text == hoverTip.Description && owned.Card.CustomMinimumSize.X == width) return;
                 label.Text = hoverTip.Description;
                 owned.Card.ResetSize();
             }
@@ -120,6 +121,13 @@ internal static class ForecastHoverTip
             }
         }
         if (tip == null) return; // Respect the game's targeting/debug tooltip blocking.
+        if (GodotObject.IsInstanceValid(owned.Card))
+        {
+            // Only our card is widened. Native wrapping/positioning still handles language and viewport bounds.
+            owned.Card!.CustomMinimumSize = new Vector2(width, 0);
+            owned.Card.GetNode<RichTextLabel>("%Description").CustomMinimumSize = new Vector2(width - 60f, 0);
+            owned.Card.ResetSize();
+        }
 
         // As in NMapPoint's history tips, position after the native container has laid out.
         Callable.From(() =>
