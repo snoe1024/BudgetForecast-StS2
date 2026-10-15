@@ -6,14 +6,14 @@ internal readonly record struct PlayerForecastDisplay(string Name, string Charac
 
 internal static class PlayerForecastParagraphs
 {
-    public static string Build(IEnumerable<PlayerForecastDisplay> players, bool multiplayer, bool showAverage,
+    public static string Build(IEnumerable<PlayerForecastDisplay> players, bool multiplayer,
         Func<decimal, decimal?, string> goldLine, Func<int, string> deletionLine)
     {
         return string.Concat(players.Select(player =>
         {
             var lines = new List<string>();
             if (multiplayer) lines.Add($"{player.CharacterIcon} {player.Name}");
-            lines.Add(goldLine(player.Minimum, showAverage ? player.Average : null) +
+            lines.Add(goldLine(player.Minimum, player.Average) +
                 (string.IsNullOrEmpty(player.GoldRelicIcons) ? "" : " " + player.GoldRelicIcons));
             // Optional current-room choices disappear without leaving an empty line.
             if (!string.IsNullOrEmpty(player.CurrentRoomGoldLine)) lines.Add(player.CurrentRoomGoldLine);

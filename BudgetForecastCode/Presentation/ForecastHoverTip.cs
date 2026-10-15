@@ -45,7 +45,7 @@ internal static class ForecastHoverTip
                 multiplayer ? InlineIcon(player.Character.IconTexture.ResourcePath) : "",
                 prediction.Minimum + currentRoom.Combat.Minimum, prediction.Average + currentRoom.Combat.Average,
                 CardRemovalForecast.ForPlayer(player), CurrentRoomGoldLine: string.Join("\n",
-                    new[] { ChoiceLines(currentRoom.Choices), ForecastDetailText.Format(details, showAverage) }
+                    new[] { ChoiceLines(currentRoom.Choices), ForecastDetailText.Format(details, true) }
                     .Where(line => !string.IsNullOrEmpty(line))),
                 DiscountRelicIcons: string.Join(" ", player.Relics
                     .Where(relic => !relic.IsMelted && relic is MembershipCard or TheCourier)
@@ -82,7 +82,7 @@ internal static class ForecastHoverTip
                 $"{InlineIcon(option.IconPath)}: {option.Delta.ToString("+0;-0;0", CultureInfo.InvariantCulture)}G")));
             return line.GetFormattedText();
         }));
-        description.Add("players", PlayerForecastParagraphs.Build(rows, multiplayer, showAverage, GoldLine, DeletionLine));
+        description.Add("players", PlayerForecastParagraphs.Build(rows, multiplayer, GoldLine, DeletionLine));
         description.Add("strategy", new LocString("static_hover_tips", "BUDGETFORECAST_STRATEGY." + strategy));
         var hoverTip = new HoverTip(new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.title"), description);
 
