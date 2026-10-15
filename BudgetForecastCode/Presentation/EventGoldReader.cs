@@ -57,7 +57,8 @@ internal static class EventGoldReader
             if (GoldRelics.Classify(oldRelic.GetType()) == GoldRelicKind.Other &&
                 GoldRelics.Classify(newRelic.GetType()) == GoldRelicKind.Other &&
                 oldRelic is not BingBong && newRelic is not BingBong) continue;
-            var afterRules = PlayerGoldForecaster.RulesForRelics(player.Relics.Where(relic => relic != oldRelic).Append(newRelic));
+            var afterRules = PlayerGoldForecaster.RulesForRelics(player.Relics.Where(relic => relic != oldRelic).Append(newRelic))
+                with { QuestBonuses = beforeRules.QuestBonuses };
             var after = PlayerGoldForecaster.Predict(0, player.RunState.AscensionLevel, path, afterRules).Gains;
             var instant = CurrentRoomGold.InstantDelta(newRelic, player.Gold, afterRules) ?? 0;
             yield return new ForecastDetail(option.Title.GetFormattedText(),
