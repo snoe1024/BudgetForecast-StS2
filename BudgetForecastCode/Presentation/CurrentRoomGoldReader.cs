@@ -1,7 +1,6 @@
 using BudgetForecast.BudgetForecastCode.Forecast;
 using Godot;
 using HarmonyLib;
-using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
@@ -22,28 +21,30 @@ internal static class CurrentRoomGoldReader
     {
         var run = player.RunState;
         var rules = PlayerGoldForecaster.RulesFor(player);
-        // The map hides overlays. IsVisibleInTree would incorrectly discard the rewards beneath it.
-        if (NOverlayStack.Instance?.GetChildren().OfType<NRewardsScreen>()
-            .LastOrDefault(candidate => !candidate.IsQueuedForDeletion() && candidate.IsNodeReady()) is { } screen)
+        // Room completion is authoritative even during setup/between turns. Old overlays may survive debug room jumps.
+        // A pending current battle must take priority over any reward screen left from another room.
+        if (run.CurrentRoom is CombatRoom combat && !combat.IsPreFinished &&
+            combat.CombatState.Players.Contains(player) && !player.Creature.IsDead && combat.Encounter.ShouldGiveRewards)
         {
-            if (!LocalContext.IsMe(player) || screen.IsComplete) return CurrentRoomGold.Empty;
+            var finalBoss = combat.RoomType == RoomType.Boss && run.CurrentActIndex >= run.Acts.Count - 1;
+            if (finalBoss) return CurrentRoomGold.Empty;
+            return new CurrentRoomGold(PlayerGoldForecaster.CombatReward(combat.Encounter.MinGoldReward,
+                combat.Encounter.MaxGoldReward, rules), Array.Empty<GoldChoice>());
+        }
+        // The map hides overlays. IsVisibleInTree would incorrectly discard the rewards beneath it.
+        var screens = NOverlayStack.Instance?.GetChildren().OfType<NRewardsScreen>()
+            .Where(candidate => !candidate.IsQueuedForDeletion() && candidate.IsNodeReady()).Reverse()
+            ?? Enumerable.Empty<NRewardsScreen>();
+        foreach (var screen in screens)
+        {
             var set = Traverse.Create(screen).Field("_rewardsSet").GetValue<RewardsSet>();
+            if (set == null || set.Room != null && !ReferenceEquals(set.Room, run.CurrentRoom)) continue;
+            if (!LocalContext.IsMe(player) || screen.IsComplete) return CurrentRoomGold.Empty;
             if (set?.Player != player) return CurrentRoomGold.Empty;
             return ReadRewards(screen, player, rules);
         }
         if (EventOverlayGoldReader.Read(player) is { } details)
             return new CurrentRoomGold(new GoldEstimate(0, 0), Array.Empty<GoldChoice>(), details);
-
-        if (run.CurrentRoom is CombatRoom combat && CombatManager.Instance.IsInProgress &&
-            combat.CombatState.Players.Contains(player) && !player.Creature.IsDead && combat.Encounter.ShouldGiveRewards)
-        {
-            var finalBoss = combat.RoomType == RoomType.Boss && run.CurrentActIndex >= run.Acts.Count - 1;
-            if (finalBoss) return CurrentRoomGold.Empty; // RewardsSet.WithRewardsFromRoom returns an empty set.
-            // Only this already entered encounter's public range; never create/populate rewards.
-            var estimate = PlayerGoldForecaster.CombatReward(combat.Encounter.MinGoldReward,
-                combat.Encounter.MaxGoldReward, rules);
-            return new CurrentRoomGold(estimate, Array.Empty<GoldChoice>());
-        }
 
         if (run.CurrentRoom is not EventRoom room) return CurrentRoomGold.Empty;
         // Events is already populated/synchronized by the game, including remote players' ancient choices.

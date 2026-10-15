@@ -71,7 +71,12 @@ internal static class RoutePreview
         if (player != null)
         {
             var prediction = PlayerGoldForecaster.Predict(player, path);
-            ForecastLog.Write(source, path, prediction.CurrentGold, run.AscensionLevel, prediction.Gains, state.Strategy.ToString());
+            var currentRoom = CurrentRoomGoldReader.Read(player, path).Combat;
+            ForecastLog.Write(source, path, prediction.CurrentGold, run.AscensionLevel,
+                new GoldEstimate(prediction.Gains.Minimum + currentRoom.Minimum, prediction.Gains.Average + currentRoom.Average),
+                state.Strategy.ToString());
+            MainFile.Logger.Info($"Current room forecast: room={run.CurrentRoom?.GetType().Name}; " +
+                $"finished={run.CurrentRoom?.IsPreFinished}; gold={currentRoom.Minimum:0.#}/{currentRoom.Average:0.#}G");
             ForecastHoverTip.Show(owner, run, path, state.Strategy, state.ShowAverage);
         }
         state.Line.DefaultColor = RouteStrategies.Color(state.Strategy);
