@@ -65,11 +65,23 @@ internal static class CurrentRoomGoldReader
         if (ancient == null || ancient.IsFinished || ancient.Description == null) return CurrentRoomGold.Empty;
         // WasChosen is set before the async obtain callback, so hide ALL alternatives immediately.
         if (ancient.CurrentOptions.Any(option => option.WasChosen)) return CurrentRoomGold.Empty;
-        var options = ancient.CurrentOptions.Where(option => !option.IsLocked && !option.IsProceed)
+        var offered = ancient.CurrentOptions.Where(option => !option.IsLocked && !option.IsProceed).ToArray();
+        var options = offered
             .Select(option => option.Relic).OfType<RelicModel>()
             .Select(relic => Option(relic, player, rules)).OfType<GoldOption>().ToArray();
+        var projections = offered.Where(option => option.Relic is { } relic &&
+                GoldRelics.Classify(relic.GetType()) == GoldRelicKind.AcquisitionModifier)
+            .Select(option =>
+            {
+                var relic = option.Relic!;
+                var afterRules = PlayerGoldForecaster.RulesForRelics(player.Relics.Append(relic))
+                    with { QuestBonuses = rules.QuestBonuses };
+                return new ForecastDetail(option.Title.GetFormattedText(),
+                    PlayerGoldForecaster.ArrivalChange(player.Gold, run.AscensionLevel, path, rules, afterRules),
+                    Icons: $"[img width=24 height=24]{relic.IconPath}[/img]", Note: "relicRoute");
+            }).ToArray();
         return new CurrentRoomGold(new GoldEstimate(0, 0), options.Length == 0
-            ? Array.Empty<GoldChoice>() : new[] { new GoldChoice(options, ChooseOne: true) });
+            ? Array.Empty<GoldChoice>() : new[] { new GoldChoice(options, ChooseOne: true) }, projections);
     }
 
     private static CurrentRoomGold ReadRewards(NRewardsScreen screen, Player player, GoldForecastRules rules)
