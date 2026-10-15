@@ -68,9 +68,9 @@ internal static class RoutePreview
         var player = LocalContext.GetMe(run);
         if (player != null)
         {
-            var estimate = CombatGoldCalculator.Sum(path, run.AscensionLevel);
-            ForecastLog.Write(source, path, player.Gold, run.AscensionLevel, estimate, state.Strategy.ToString());
-            ForecastHoverTip.Show(owner, run, estimate, state.Strategy, state.ShowAverage);
+            var prediction = PlayerGoldForecaster.Predict(player, path);
+            ForecastLog.Write(source, path, prediction.CurrentGold, run.AscensionLevel, prediction.Gains, state.Strategy.ToString());
+            ForecastHoverTip.Show(owner, run, path, state.Strategy, state.ShowAverage);
         }
         state.Line.DefaultColor = RouteStrategies.Color(state.Strategy);
         UpdatePoints(screen, state);
@@ -133,7 +133,7 @@ internal static class RoutePreview
                 var player = LocalContext.GetMe(state.Run);
                 if (player != null)
                     ForecastHoverTip.Show(state.Owner, state.Run,
-                        CombatGoldCalculator.Sum(state.Path!, state.Run.AscensionLevel), state.Strategy, showAverage);
+                        state.Path!, state.Strategy, showAverage);
             }
         }
         catch (Exception exception)

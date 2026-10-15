@@ -12,6 +12,7 @@ using MegaCrit.Sts2.Core.Platform;
 using MegaCrit.Sts2.Core.Multiplayer.Game;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Models.Relics;
+using MegaCrit.Sts2.Core.Map;
 
 namespace BudgetForecast.BudgetForecastCode.Presentation;
 
@@ -24,21 +25,26 @@ internal static class ForecastHoverTip
     }
     private static readonly ConditionalWeakTable<NNormalMapPoint, OwnedTip> OwnedTips = new();
 
-    public static void Show(NNormalMapPoint owner, IRunState run, GoldEstimate estimate, RouteStrategy strategy,
+    public static void Show(NNormalMapPoint owner, IRunState run, IReadOnlyList<MapPoint> path, RouteStrategy strategy,
         bool showAverage)
     {
         if (NHoverTipSet.shouldBlockHoverTips) return;
         var description = new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.description");
         var multiplayer = RunManager.Instance.NetService.Type.IsMultiplayer() || run.Players.Count > 1;
-        var rows = run.Players.Select(player => new PlayerForecastDisplay(
-            multiplayer ? PlatformUtil.GetPlayerName(RunManager.Instance.NetService.Platform, player.NetId)
-                .Replace("\r", " ").Replace("\n", " ") : "",
-            multiplayer ? InlineIcon(player.Character.IconTexture.ResourcePath) : "",
-            player.Gold + estimate.Minimum, player.Gold + estimate.Average, CardRemovalForecast.ForPlayer(player),
-            DiscountRelicIcons: string.Join(" ", player.Relics
-                .Where(relic => !relic.IsMelted && relic is MembershipCard or TheCourier)
-                .OrderBy(relic => relic is MembershipCard ? 0 : 1)
-                .Select(relic => InlineIcon(relic.IconPath)))));
+        var rows = run.Players.Select(player =>
+        {
+            var prediction = PlayerGoldForecaster.Predict(player, path);
+            return new PlayerForecastDisplay(
+                multiplayer ? PlatformUtil.GetPlayerName(RunManager.Instance.NetService.Platform, player.NetId)
+                    .Replace("\r", " ").Replace("\n", " ") : "",
+                multiplayer ? InlineIcon(player.Character.IconTexture.ResourcePath) : "",
+                prediction.Minimum, prediction.Average, CardRemovalForecast.ForPlayer(player),
+                DiscountRelicIcons: string.Join(" ", player.Relics
+                    .Where(relic => !relic.IsMelted && relic is MembershipCard or TheCourier)
+                    .OrderBy(relic => relic is MembershipCard ? 0 : 1)
+                    .Select(relic => InlineIcon(relic.IconPath))),
+                GoldRelicIcons: string.Join(" ", GoldRelics.AcquisitionModifiers(player).Select(relic => InlineIcon(relic.IconPath))));
+        });
         string GoldLine(decimal minimum, decimal? averageGold)
         {
             var line = new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.gold");

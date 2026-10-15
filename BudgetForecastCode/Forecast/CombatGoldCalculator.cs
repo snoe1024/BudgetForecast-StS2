@@ -12,6 +12,12 @@ internal static class CombatGoldCalculator
     // Full defeat and reward collection assumed; no encounter generation or reward RNG calls.
     public static GoldEstimate ForPoint(MapPointType type, int ascension)
     {
+        var (min, max) = RangeForPoint(type, ascension);
+        return new GoldEstimate(min, (min + max) / 2m);
+    }
+
+    public static (int Min, int Max) RangeForPoint(MapPointType type, int ascension)
+    {
         var (min, max) = type switch
         {
             MapPointType.Monster => (10, 20),
@@ -23,7 +29,7 @@ internal static class CombatGoldCalculator
             min = (int)(min * AscensionHelper.PovertyAscensionGoldMultiplier);
             max = (int)(max * AscensionHelper.PovertyAscensionGoldMultiplier);
         }
-        return new GoldEstimate(min, (min + max) / 2m);
+        return (min, max);
     }
 
     public static GoldEstimate Sum(IEnumerable<MapPoint> futurePath, int ascension)

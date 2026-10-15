@@ -2,7 +2,7 @@ namespace BudgetForecast.BudgetForecastCode.Presentation;
 
 internal readonly record struct PlayerForecastDisplay(string Name, string CharacterIcon,
     decimal Minimum, decimal Average, int DeletionGold, string? CurrentRoomGoldLine = null,
-    string DiscountRelicIcons = "");
+    string DiscountRelicIcons = "", string GoldRelicIcons = "");
 
 internal static class PlayerForecastParagraphs
 {
@@ -13,7 +13,8 @@ internal static class PlayerForecastParagraphs
         {
             var lines = new List<string>();
             if (multiplayer) lines.Add($"{player.CharacterIcon} {player.Name}");
-            lines.Add(goldLine(player.Minimum, showAverage ? player.Average : null));
+            lines.Add(goldLine(player.Minimum, showAverage ? player.Average : null) +
+                (string.IsNullOrEmpty(player.GoldRelicIcons) ? "" : " " + player.GoldRelicIcons));
             // L3 is reserved; it contributes neither content nor a blank line until defined.
             if (!string.IsNullOrEmpty(player.CurrentRoomGoldLine)) lines.Add(player.CurrentRoomGoldLine);
             lines.Add(deletionLine(player.DeletionGold) +
