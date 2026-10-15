@@ -22,7 +22,6 @@ internal static class RoutePreview
         public MapPoint? Source;
         public IReadOnlyList<MapPoint>? Path;
         public RouteStrategy Strategy = RouteStrategy.Balance;
-        public bool ShowAverage;
         public string? ContextKey;
         public ulong NextForecastRefresh;
     }
@@ -50,7 +49,6 @@ internal static class RoutePreview
         state.Run = run;
         state.Source = source;
         state.Path = path;
-        state.ShowAverage = Input.IsKeyPressed(Key.Shift);
         state.NextForecastRefresh = Time.GetTicksMsec() + 250;
         if (!GodotObject.IsInstanceValid(state.Line))
         {
@@ -73,14 +71,14 @@ internal static class RoutePreview
         var player = LocalContext.GetMe(run);
         if (player != null)
         {
-            var prediction = PlayerGoldForecaster.Predict(player, path);
             var currentRoom = CurrentRoomGoldReader.Read(player, path).Combat;
+            var prediction = PlayerGoldForecaster.Predict(player, path, currentRoom);
             ForecastLog.Write(source, path, prediction.CurrentGold, run.AscensionLevel,
-                new GoldEstimate(prediction.Gains.Minimum + currentRoom.Minimum, prediction.Gains.Average + currentRoom.Average),
+                prediction.Gains,
                 state.Strategy.ToString());
             MainFile.Logger.Info($"Current room forecast: room={run.CurrentRoom?.GetType().Name}; " +
                 $"finished={run.CurrentRoom?.IsPreFinished}; gold={currentRoom.Minimum:0.#}/{currentRoom.Average:0.#}G");
-            ForecastHoverTip.Show(owner, run, path, state.Strategy, state.ShowAverage);
+            ForecastHoverTip.Show(owner, run, path, state.Strategy);
         }
         state.Line.DefaultColor = RouteStrategies.Color(state.Strategy);
         UpdatePoints(screen, state);
@@ -136,8 +134,7 @@ internal static class RoutePreview
                 return;
             }
             UpdatePoints(screen, state); // Follow resize/point animations without recalculating the route.
-            var showAverage = Input.IsKeyPressed(Key.Shift);
-            if (state.ShowAverage != showAverage || Time.GetTicksMsec() >= state.NextForecastRefresh)
+            if (Time.GetTicksMsec() >= state.NextForecastRefresh)
             {
                 if (BalanceContextReader.Read(state.Run!).CacheKey != state.ContextKey)
                 {
@@ -145,12 +142,11 @@ internal static class RoutePreview
                     if (refreshed != null) Show(screen, state.Owner, state.Run!, current, refreshed);
                     return;
                 }
-                state.ShowAverage = showAverage;
                 state.NextForecastRefresh = Time.GetTicksMsec() + 250;
                 var player = LocalContext.GetMe(state.Run);
                 if (player != null)
                     ForecastHoverTip.Show(state.Owner, state.Run,
-                        state.Path!, state.Strategy, showAverage);
+                        state.Path!, state.Strategy);
             }
         }
         catch (Exception exception)

@@ -1,0 +1,9 @@
+{
+  "BUDGETFORECAST.mod_title": "BudgetForecast",
+  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.title": "일반 전투 예상 턴 수",
+  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.hover.desc": "골드 지출 계산에 쓰는 예상 턴 수입니다. 최소값과 평균값 모두에서 차감합니다.",
+  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.sliderFormat": "{0:0.0}",
+  "BUDGETFORECAST-ELITE_COMBAT_TURNS.title": "엘리트 전투 예상 턴 수",
+  "BUDGETFORECAST-ELITE_COMBAT_TURNS.hover.desc": "골드 지출 계산에 쓰는 예상 턴 수입니다. 최소값과 평균값 모두에서 차감합니다.",
+  "BUDGETFORECAST-ELITE_COMBAT_TURNS.sliderFormat": "{0:0.0}"
+}

@@ -25,8 +25,7 @@ internal static class ForecastHoverTip
     }
     private static readonly ConditionalWeakTable<NNormalMapPoint, OwnedTip> OwnedTips = new();
 
-    public static void Show(NNormalMapPoint owner, IRunState run, IReadOnlyList<MapPoint> path, RouteStrategy strategy,
-        bool showAverage)
+    public static void Show(NNormalMapPoint owner, IRunState run, IReadOnlyList<MapPoint> path, RouteStrategy strategy)
     {
         if (NHoverTipSet.shouldBlockHoverTips) return;
         var width = Math.Min(620f, Math.Max(300f, owner.GetViewportRect().Size.X - 60f));
@@ -34,8 +33,8 @@ internal static class ForecastHoverTip
         var multiplayer = RunManager.Instance.NetService.Type.IsMultiplayer() || run.Players.Count > 1;
         var rows = run.Players.Select(player =>
         {
-            var prediction = PlayerGoldForecaster.Predict(player, path);
             var currentRoom = CurrentRoomGoldReader.Read(player, path);
+            var prediction = PlayerGoldForecaster.Predict(player, path, currentRoom.Combat);
             var carried = EventGoldReader.CarriedPotions(player);
             var details = (currentRoom.Details ?? Array.Empty<ForecastDetail>())
                 .Concat(carried == null ? Array.Empty<ForecastDetail>() : new[] { carried });
@@ -43,9 +42,9 @@ internal static class ForecastHoverTip
                 multiplayer ? PlatformUtil.GetPlayerName(RunManager.Instance.NetService.Platform, player.NetId)
                     .Replace("\r", " ").Replace("\n", " ") : "",
                 multiplayer ? InlineIcon(player.Character.IconTexture.ResourcePath) : "",
-                prediction.Minimum + currentRoom.Combat.Minimum, prediction.Average + currentRoom.Combat.Average,
+                prediction.Minimum, prediction.Average,
                 CardRemovalForecast.ForPlayer(player), CurrentRoomGoldLine: string.Join("\n",
-                    new[] { ChoiceLines(currentRoom.Choices), ForecastDetailText.Format(details, true) }
+                    new[] { ChoiceLines(currentRoom.Choices), ForecastDetailText.Format(details, true), SealAssumption(player) }
                     .Where(line => !string.IsNullOrEmpty(line))),
                 DiscountRelicIcons: string.Join(" ", player.Relics
                     .Where(relic => !relic.IsMelted && relic is MembershipCard or TheCourier)
@@ -146,4 +145,15 @@ internal static class ForecastHoverTip
     }
 
     private static string InlineIcon(string path) => $"[img width=24 height=24]{path}[/img]";
+
+    private static string SealAssumption(MegaCrit.Sts2.Core.Entities.Players.Player player)
+    {
+        var seal = player.Relics.OfType<SealOfGold>().FirstOrDefault(relic => !relic.IsMelted);
+        if (seal == null) return "";
+        var line = new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.sealTurns");
+        line.Add("icon", InlineIcon(seal.IconPath));
+        line.Add("normal", PlayerGoldForecaster.NormalCombatTurns.ToString("0.#", CultureInfo.InvariantCulture));
+        line.Add("elite", PlayerGoldForecaster.EliteCombatTurns.ToString("0.#", CultureInfo.InvariantCulture));
+        return line.GetFormattedText();
+    }
 }

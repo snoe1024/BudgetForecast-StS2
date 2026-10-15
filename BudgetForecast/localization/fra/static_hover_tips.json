@@ -20,5 +20,7 @@
   "BUDGETFORECAST_SHOP.note.foulFight": "(si combat choisi)",
   "BUDGETFORECAST_SHOP.note.trade": "(écart final après échange ; effets conditionnels exclus)",
   "BUDGETFORECAST_SHOP.note.revealed": "(révélé ; non récupéré)",
-  "BUDGETFORECAST_SHOP.note.cardsPending": "(choix de carte en attente)"
+  "BUDGETFORECAST_SHOP.note.cardsPending": "(choix de carte en attente)",
+  "BUDGETFORECAST_SHOP.sealTurns": "{icon} Tours estimés : normal {normal} / élite {elite}",
+  "BUDGETFORECAST_SHOP.note.relicRoute": "(variation à l arrivée si choisi)"
 }

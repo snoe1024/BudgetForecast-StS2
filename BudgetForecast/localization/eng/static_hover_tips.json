@@ -20,5 +20,7 @@
   "BUDGETFORECAST_SHOP.note.foulFight": "(if combat is chosen)",
   "BUDGETFORECAST_SHOP.note.trade": "(arrival change after trade; conditional effects excluded)",
   "BUDGETFORECAST_SHOP.note.revealed": "(revealed; unclaimed)",
-  "BUDGETFORECAST_SHOP.note.cardsPending": "(card selection pending)"
+  "BUDGETFORECAST_SHOP.note.cardsPending": "(card selection pending)",
+  "BUDGETFORECAST_SHOP.sealTurns": "{icon} Assumed turns: normal {normal} / elite {elite}",
+  "BUDGETFORECAST_SHOP.note.relicRoute": "(arrival change if chosen)"
 }

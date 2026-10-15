@@ -72,8 +72,9 @@ internal static class EventForecast
                 var low = (int)state.Vars["CombatMin"];
                 var high = (int)state.Vars["CombatMax"];
                 var combat = PlayerGoldForecaster.CombatReward(low, high, state.Rules);
-                min += combat.Minimum;
-                mean += combat.Average;
+                var spending = PlayerGoldForecaster.SealCost(state.Gold - cost, state.Rules.NormalTurns, state.Rules);
+                min += combat.Minimum - spending;
+                mean += combat.Average - spending;
             }
             int count;
             switch (rule.CardsFrom)

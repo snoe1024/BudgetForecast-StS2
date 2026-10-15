@@ -1,0 +1,9 @@
+{
+  "BUDGETFORECAST.mod_title": "BudgetForecast",
+  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.title": "Turnos de combate normal",
+  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.hover.desc": "Turnos estimados para el gasto de oro. Se resta del mínimo y del promedio.",
+  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.sliderFormat": "{0:0.0}",
+  "BUDGETFORECAST-ELITE_COMBAT_TURNS.title": "Turnos de combate de élite",
+  "BUDGETFORECAST-ELITE_COMBAT_TURNS.hover.desc": "Turnos estimados para el gasto de oro. Se resta del mínimo y del promedio.",
+  "BUDGETFORECAST-ELITE_COMBAT_TURNS.sliderFormat": "{0:0.0}"
+}

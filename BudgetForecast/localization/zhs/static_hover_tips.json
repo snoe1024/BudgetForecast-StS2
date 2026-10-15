@@ -20,5 +20,7 @@
   "BUDGETFORECAST_SHOP.note.foulFight": "（选择战斗时）",
   "BUDGETFORECAST_SHOP.note.trade": "（交换后到达时差额，不含条件效果）",
   "BUDGETFORECAST_SHOP.note.revealed": "（已发现，未领取）",
-  "BUDGETFORECAST_SHOP.note.cardsPending": "（等待选牌）"
+  "BUDGETFORECAST_SHOP.note.cardsPending": "（等待选牌）",
+  "BUDGETFORECAST_SHOP.sealTurns": "{icon} 预计回合：普通{normal} / 精英{elite}",
+  "BUDGETFORECAST_SHOP.note.relicRoute": "（选择后的到店金额变化）"
 }

@@ -1,0 +1,9 @@
+{
+  "BUDGETFORECAST.mod_title": "BudgetForecast",
+  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.title": "Tours de combat normal",
+  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.hover.desc": "Tours estimés pour les dépenses en or. Déduits du minimum et de la moyenne.",
+  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.sliderFormat": "{0:0.0}",
+  "BUDGETFORECAST-ELITE_COMBAT_TURNS.title": "Tours de combat élite",
+  "BUDGETFORECAST-ELITE_COMBAT_TURNS.hover.desc": "Tours estimés pour les dépenses en or. Déduits du minimum et de la moyenne.",
+  "BUDGETFORECAST-ELITE_COMBAT_TURNS.sliderFormat": "{0:0.0}"
+}

@@ -20,5 +20,7 @@
   "BUDGETFORECAST_SHOP.note.foulFight": "(bei Kampfwahl)",
   "BUDGETFORECAST_SHOP.note.trade": "(Ankunftsdifferenz nach Tausch; ohne bedingte Effekte)",
   "BUDGETFORECAST_SHOP.note.revealed": "(aufgedeckt; nicht abgeholt)",
-  "BUDGETFORECAST_SHOP.note.cardsPending": "(Kartenwahl offen)"
+  "BUDGETFORECAST_SHOP.note.cardsPending": "(Kartenwahl offen)",
+  "BUDGETFORECAST_SHOP.sealTurns": "{icon} Angenommene Züge: normal {normal} / Elite {elite}",
+  "BUDGETFORECAST_SHOP.note.relicRoute": "(Änderung bei Ankunft nach Wahl)"
 }

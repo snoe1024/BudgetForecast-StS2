@@ -1,1 +1,9 @@
-{}
+{
+  "BUDGETFORECAST.mod_title": "BudgetForecast",
+  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.title": "Normal combat turns",
+  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.hover.desc": "Assumed turns for Seal of Gold spending. Deducted from both minimum and average.",
+  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.sliderFormat": "{0:0.0}",
+  "BUDGETFORECAST-ELITE_COMBAT_TURNS.title": "Elite combat turns",
+  "BUDGETFORECAST-ELITE_COMBAT_TURNS.hover.desc": "Assumed turns for Seal of Gold spending. Deducted from both minimum and average.",
+  "BUDGETFORECAST-ELITE_COMBAT_TURNS.sliderFormat": "{0:0.0}"
+}

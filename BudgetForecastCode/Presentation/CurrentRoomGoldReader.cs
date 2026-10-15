@@ -24,12 +24,20 @@ internal static class CurrentRoomGoldReader
         // Room completion is authoritative even during setup/between turns. Old overlays may survive debug room jumps.
         // A pending current battle must take priority over any reward screen left from another room.
         if (run.CurrentRoom is CombatRoom combat && !combat.IsPreFinished &&
-            combat.CombatState.Players.Contains(player) && !player.Creature.IsDead && combat.Encounter.ShouldGiveRewards)
+            combat.CombatState.Players.Contains(player) && !player.Creature.IsDead)
         {
             var finalBoss = combat.RoomType == RoomType.Boss && run.CurrentActIndex >= run.Acts.Count - 1;
             if (finalBoss) return CurrentRoomGold.Empty;
-            return new CurrentRoomGold(PlayerGoldForecaster.CombatReward(combat.Encounter.MinGoldReward,
-                combat.Encounter.MaxGoldReward, rules), Array.Empty<GoldChoice>());
+            var income = combat.Encounter.ShouldGiveRewards
+                ? PlayerGoldForecaster.CombatReward(combat.Encounter.MinGoldReward, combat.Encounter.MaxGoldReward, rules)
+                : new GoldEstimate(0, 0);
+            var totalTurns = combat.RoomType switch { RoomType.Monster => rules.NormalTurns,
+                RoomType.Elite => rules.EliteTurns, _ => 0 };
+            // Already-started turns have already charged Seal; do not subtract their payments again.
+            var remaining = Math.Max(0, totalTurns - (player.PlayerCombatState?.TurnNumber ?? 0));
+            var spending = PlayerGoldForecaster.SealCost(player.Gold, remaining, rules);
+            return new CurrentRoomGold(new GoldEstimate(income.Minimum - spending, income.Average - spending),
+                Array.Empty<GoldChoice>());
         }
         // The map hides overlays. IsVisibleInTree would incorrectly discard the rewards beneath it.
         var screens = NOverlayStack.Instance?.GetChildren().OfType<NRewardsScreen>()

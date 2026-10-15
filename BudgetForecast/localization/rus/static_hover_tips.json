@@ -20,5 +20,7 @@
   "BUDGETFORECAST_SHOP.note.foulFight": "(при выборе боя)",
   "BUDGETFORECAST_SHOP.note.trade": "(разница по прибытии после обмена; без условных эффектов)",
   "BUDGETFORECAST_SHOP.note.revealed": "(обнаружено; не получено)",
-  "BUDGETFORECAST_SHOP.note.cardsPending": "(ожидается выбор карты)"
+  "BUDGETFORECAST_SHOP.note.cardsPending": "(ожидается выбор карты)",
+  "BUDGETFORECAST_SHOP.sealTurns": "{icon} Ходы: обычный бой {normal} / элита {elite}",
+  "BUDGETFORECAST_SHOP.note.relicRoute": "(изменение суммы по прибытии при выборе)"
 }

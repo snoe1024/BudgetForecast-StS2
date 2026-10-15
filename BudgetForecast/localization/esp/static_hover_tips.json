@@ -20,5 +20,7 @@
   "BUDGETFORECAST_SHOP.note.foulFight": "(al elegir combate)",
   "BUDGETFORECAST_SHOP.note.trade": "(diferencia al llegar tras el intercambio; sin efectos condicionales)",
   "BUDGETFORECAST_SHOP.note.revealed": "(revelado; sin recoger)",
-  "BUDGETFORECAST_SHOP.note.cardsPending": "(elección de carta pendiente)"
+  "BUDGETFORECAST_SHOP.note.cardsPending": "(elección de carta pendiente)",
+  "BUDGETFORECAST_SHOP.sealTurns": "{icon} Turnos estimados: normal {normal} / élite {elite}",
+  "BUDGETFORECAST_SHOP.note.relicRoute": "(cambio al llegar si se elige)"
 }

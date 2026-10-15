@@ -2,6 +2,8 @@ using System.Reflection;
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Modding;
+using BaseLib.Config;
+using BudgetForecast.BudgetForecastCode.Config;
 
 namespace BudgetForecast.BudgetForecastCode;
 
@@ -16,6 +18,9 @@ public partial class MainFile : Node
     public static void Initialize()
     {
         var assembly = Assembly.GetExecutingAssembly();
+        var config = new BudgetForecastConfig();
+        config.Load();
+        ModConfigRegistry.Register(ModId, config);
 
         //If you want to use scripts defined in your mod for Godot scenes, uncomment the following line.
         //Godot.Bridge.ScriptManagerBridge.LookupScriptsInAssembly(assembly);

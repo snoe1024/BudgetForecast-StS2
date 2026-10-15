@@ -9,7 +9,8 @@ namespace BudgetForecast.BudgetForecastCode.Forecast;
 internal sealed record GoldForecastRules(IReadOnlyList<decimal>? GainMultipliers = null,
     bool CannotGainGold = false, IReadOnlyList<int>? CombatBonuses = null,
     IReadOnlyList<decimal>? FloorBonuses = null, decimal? CardGold = null, bool DoubleCards = false,
-    IReadOnlyDictionary<MapCoord, IReadOnlyList<QuestGoldBonus>>? QuestBonuses = null, int? TreasureRoomsEntered = null);
+    IReadOnlyDictionary<MapCoord, IReadOnlyList<QuestGoldBonus>>? QuestBonuses = null, int? TreasureRoomsEntered = null,
+    decimal SealLossPerTurn = 0, decimal NormalTurns = 4, decimal EliteTurns = 6);
 
 internal sealed record QuestGoldBonus(int Claim, decimal Amount);
 
@@ -21,8 +22,12 @@ internal readonly record struct PlayerGoldPrediction(int CurrentGold, GoldEstima
 
 internal static class PlayerGoldForecaster
 {
-    public static PlayerGoldPrediction Predict(Player player, IReadOnlyList<MapPoint> futurePath)
-        => Predict(player.Gold, player.RunState.AscensionLevel, futurePath, RulesFor(player));
+    public static decimal NormalCombatTurns { get; set; } = 4;
+    public static decimal EliteCombatTurns { get; set; } = 6;
+
+    public static PlayerGoldPrediction Predict(Player player, IReadOnlyList<MapPoint> futurePath,
+        GoldEstimate pending = default)
+        => Predict(player.Gold, player.RunState.AscensionLevel, futurePath, RulesFor(player), pending);
 
     public static GoldForecastRules RulesFor(Player player)
     {
@@ -43,6 +48,7 @@ internal static class PlayerGoldForecaster
         decimal? cardGold = null;
         var doubleCards = false;
         int? treasureRooms = null;
+        decimal sealLoss = 0;
         foreach (var relic in relics.Where(relic => !relic.IsMelted))
         {
             switch (relic)
@@ -54,11 +60,13 @@ internal static class PlayerGoldForecaster
                 case LuckyFysh lucky: cardGold = lucky.DynamicVars.Gold.BaseValue; break;
                 case BingBong: doubleCards = true; break;
                 case SilverCrucible crucible: treasureRooms = crucible.TreasureRoomsEntered; break;
-                // No future card choices or turn counts are assumed for route income.
+                case SealOfGold seal: sealLoss += seal.DynamicVars.Gold.BaseValue; break;
+                // Future card choices are not assumed for route income.
             }
         }
         return new GoldForecastRules(multipliers, blocked, combatBonuses, floorBonuses, cardGold, doubleCards,
-            TreasureRoomsEntered: treasureRooms);
+            TreasureRoomsEntered: treasureRooms, SealLossPerTurn: sealLoss,
+            NormalTurns: NormalCombatTurns, EliteTurns: EliteCombatTurns);
     }
 
     public static decimal ApplyGain(decimal amount, GoldForecastRules rules)
@@ -79,9 +87,9 @@ internal static class PlayerGoldForecaster
 
     // Pure calculation from public inputs. Does not invoke hooks, rewards, RNGs or game commands.
     public static PlayerGoldPrediction Predict(int currentGold, int ascension, IEnumerable<MapPoint> futurePath,
-        GoldForecastRules rules)
+        GoldForecastRules rules, GoldEstimate pending = default)
     {
-        decimal minimum = 0, average = 0;
+        decimal minimum = pending.Minimum, average = pending.Average;
         var claimed = new HashSet<int>();
         var treasureRooms = rules.TreasureRoomsEntered;
         foreach (var point in futurePath)
@@ -106,12 +114,27 @@ internal static class PlayerGoldForecaster
                     }
             }
             if (point.PointType is not (MapPointType.Monster or MapPointType.Elite)) continue;
+            var turns = point.PointType == MapPointType.Elite ? rules.EliteTurns : rules.NormalTurns;
+            minimum -= SealCost(currentGold + minimum, turns, rules);
+            average -= SealCost(currentGold + average, turns, rules);
             var (min, max) = CombatGoldCalculator.RangeForPoint(point.PointType, ascension);
             var combat = CombatReward(min, max, rules);
             minimum += combat.Minimum;
             average += combat.Average;
         }
-        if (rules.CannotGainGold) minimum = average = 0; // Existing gold is never removed by Ectoplasm.
         return new PlayerGoldPrediction(currentGold, new GoldEstimate(minimum, average));
+    }
+
+    // Spending is unaffected by gain multipliers/Ectoplasm. Native Seal cannot pay without a full payment.
+    public static decimal SealCost(decimal availableGold, decimal turns, GoldForecastRules rules) =>
+        rules.SealLossPerTurn <= 0 ? 0 : rules.SealLossPerTurn *
+            Math.Min(Math.Max(0, turns), decimal.Floor(Math.Max(0, availableGold) / rules.SealLossPerTurn));
+
+    public static GoldEstimate ArrivalChange(int currentGold, int ascension, IReadOnlyList<MapPoint> path,
+        GoldForecastRules beforeRules, GoldForecastRules afterRules, decimal instant = 0)
+    {
+        var before = Predict(currentGold, ascension, path, beforeRules);
+        var after = Predict(currentGold, ascension, path, afterRules, new GoldEstimate(instant, instant));
+        return new GoldEstimate(after.Minimum - before.Minimum, after.Average - before.Average);
     }
 }

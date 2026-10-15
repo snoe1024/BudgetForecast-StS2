@@ -1,0 +1,9 @@
+{
+  "BUDGETFORECAST.mod_title": "BudgetForecast",
+  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.title": "通常戦闘の想定ターン数",
+  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.hover.desc": "Seal of Goldの支出計算に使用。最低値・平均値の両方から差し引きます。",
+  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.sliderFormat": "{0:0.0}",
+  "BUDGETFORECAST-ELITE_COMBAT_TURNS.title": "エリート戦闘の想定ターン数",
+  "BUDGETFORECAST-ELITE_COMBAT_TURNS.hover.desc": "Seal of Goldの支出計算に使用。最低値・平均値の両方から差し引きます。",
+  "BUDGETFORECAST-ELITE_COMBAT_TURNS.sliderFormat": "{0:0.0}"
+}

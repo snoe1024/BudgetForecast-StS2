@@ -35,7 +35,9 @@ internal static class EventGoldReader
         {
             // The event's published fixed reward, without touching its merchant inventory/encounter generation.
             var reward = PlayerGoldForecaster.CombatReward(300, 300, rules);
-            details.Add(new ForecastDetail(model.Title.GetFormattedText(), reward, Note: "foulFight"));
+            var spending = PlayerGoldForecaster.SealCost(player.Gold, rules.NormalTurns, rules);
+            details.Add(new ForecastDetail(model.Title.GetFormattedText(),
+                new GoldEstimate(reward.Minimum - spending, reward.Average - spending), Note: "foulFight"));
         }
         return details;
     }
@@ -47,7 +49,6 @@ internal static class EventGoldReader
         var offered = Traverse.Create(model).Field("_newRelics").GetValue<IReadOnlyList<RelicModel>>();
         if (owned == null || offered == null) yield break;
         var beforeRules = PlayerGoldForecaster.RulesFor(player);
-        var before = PlayerGoldForecaster.Predict(0, player.RunState.AscensionLevel, path, beforeRules).Gains;
         foreach (var option in model.CurrentOptions.Where(option => !option.IsLocked && !option.IsProceed))
         {
             var index = option.TextKey.Split('.').Last() switch { "TOP" => 0, "MIDDLE" => 1, "BOTTOM" => 2, _ => -1 };
@@ -59,10 +60,10 @@ internal static class EventGoldReader
                 oldRelic is not BingBong && newRelic is not BingBong) continue;
             var afterRules = PlayerGoldForecaster.RulesForRelics(player.Relics.Where(relic => relic != oldRelic).Append(newRelic))
                 with { QuestBonuses = beforeRules.QuestBonuses };
-            var after = PlayerGoldForecaster.Predict(0, player.RunState.AscensionLevel, path, afterRules).Gains;
             var instant = CurrentRoomGold.InstantDelta(newRelic, player.Gold, afterRules) ?? 0;
             yield return new ForecastDetail(option.Title.GetFormattedText(),
-                new GoldEstimate(after.Minimum - before.Minimum + instant, after.Average - before.Average + instant),
+                PlayerGoldForecaster.ArrivalChange(player.Gold, player.RunState.AscensionLevel, path,
+                    beforeRules, afterRules, instant),
                 Icons: Icon(oldRelic.IconPath) + " → " + Icon(newRelic.IconPath), Note: "trade");
         }
     }
