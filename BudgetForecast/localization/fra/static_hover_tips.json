@@ -8,5 +8,7 @@
   "BUDGETFORECAST_STRATEGY.MinimizeCombats": "Combats minimum",
   "BUDGETFORECAST_STRATEGY.MaximizeRest": "Repos maximum",
   "BUDGETFORECAST_STRATEGY.MaximizeEvents": "Événements maximum",
-  "BUDGETFORECAST_STRATEGY.MaximizeElites": "Élites maximum"
+  "BUDGETFORECAST_STRATEGY.MaximizeElites": "Élites maximum",
+  "BUDGETFORECAST_SHOP.choice": "Au choix (un seul) : {options}",
+  "BUDGETFORECAST_SHOP.obtain": "Si obtenu : {options}"
 }

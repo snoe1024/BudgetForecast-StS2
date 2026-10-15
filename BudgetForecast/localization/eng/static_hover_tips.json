@@ -8,5 +8,7 @@
   "BUDGETFORECAST_STRATEGY.MinimizeCombats": "Minimum combat route",
   "BUDGETFORECAST_STRATEGY.MaximizeRest": "Maximum rest route",
   "BUDGETFORECAST_STRATEGY.MaximizeEvents": "Maximum event route",
-  "BUDGETFORECAST_STRATEGY.MaximizeElites": "Maximum elite route"
+  "BUDGETFORECAST_STRATEGY.MaximizeElites": "Maximum elite route",
+  "BUDGETFORECAST_SHOP.choice": "If chosen (one only): {options}",
+  "BUDGETFORECAST_SHOP.obtain": "If obtained: {options}"
 }

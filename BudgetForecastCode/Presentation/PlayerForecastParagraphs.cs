@@ -15,7 +15,7 @@ internal static class PlayerForecastParagraphs
             if (multiplayer) lines.Add($"{player.CharacterIcon} {player.Name}");
             lines.Add(goldLine(player.Minimum, showAverage ? player.Average : null) +
                 (string.IsNullOrEmpty(player.GoldRelicIcons) ? "" : " " + player.GoldRelicIcons));
-            // L3 is reserved; it contributes neither content nor a blank line until defined.
+            // Optional current-room choices disappear without leaving an empty line.
             if (!string.IsNullOrEmpty(player.CurrentRoomGoldLine)) lines.Add(player.CurrentRoomGoldLine);
             lines.Add(deletionLine(player.DeletionGold) +
                 (string.IsNullOrEmpty(player.DiscountRelicIcons) ? "" : " " + player.DiscountRelicIcons));

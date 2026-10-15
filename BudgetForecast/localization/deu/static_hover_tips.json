@@ -8,5 +8,7 @@
   "BUDGETFORECAST_STRATEGY.MinimizeCombats": "Route mit den wenigsten Kämpfen",
   "BUDGETFORECAST_STRATEGY.MaximizeRest": "Route mit den meisten Rastplätzen",
   "BUDGETFORECAST_STRATEGY.MaximizeEvents": "Route mit den meisten Ereignissen",
-  "BUDGETFORECAST_STRATEGY.MaximizeElites": "Route mit den meisten Eliten"
+  "BUDGETFORECAST_STRATEGY.MaximizeElites": "Route mit den meisten Eliten",
+  "BUDGETFORECAST_SHOP.choice": "Bei Wahl (nur eins): {options}",
+  "BUDGETFORECAST_SHOP.obtain": "Bei Erhalt: {options}"
 }

@@ -8,5 +8,7 @@
   "BUDGETFORECAST_STRATEGY.MinimizeCombats": "戦闘最小化ルート",
   "BUDGETFORECAST_STRATEGY.MaximizeRest": "休憩最大化ルート",
   "BUDGETFORECAST_STRATEGY.MaximizeEvents": "イベント最大化ルート",
-  "BUDGETFORECAST_STRATEGY.MaximizeElites": "エリート最大化ルート"
+  "BUDGETFORECAST_STRATEGY.MaximizeElites": "エリート最大化ルート",
+  "BUDGETFORECAST_SHOP.choice": "選択時（いずれか1つ）: {options}",
+  "BUDGETFORECAST_SHOP.obtain": "取得時: {options}"
 }

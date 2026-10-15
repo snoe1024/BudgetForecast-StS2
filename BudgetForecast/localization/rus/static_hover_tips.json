@@ -8,5 +8,7 @@
   "BUDGETFORECAST_STRATEGY.MinimizeCombats": "Минимум боёв",
   "BUDGETFORECAST_STRATEGY.MaximizeRest": "Максимум отдыха",
   "BUDGETFORECAST_STRATEGY.MaximizeEvents": "Максимум событий",
-  "BUDGETFORECAST_STRATEGY.MaximizeElites": "Максимум элит"
+  "BUDGETFORECAST_STRATEGY.MaximizeElites": "Максимум элит",
+  "BUDGETFORECAST_SHOP.choice": "При выборе (одно): {options}",
+  "BUDGETFORECAST_SHOP.obtain": "При получении: {options}"
 }

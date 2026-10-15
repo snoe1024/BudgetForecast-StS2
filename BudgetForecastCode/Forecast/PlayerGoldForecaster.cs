@@ -17,6 +17,9 @@ internal readonly record struct PlayerGoldPrediction(int CurrentGold, GoldEstima
 internal static class PlayerGoldForecaster
 {
     public static PlayerGoldPrediction Predict(Player player, IReadOnlyList<MapPoint> futurePath)
+        => Predict(player.Gold, player.RunState.AscensionLevel, futurePath, RulesFor(player));
+
+    public static GoldForecastRules RulesFor(Player player)
     {
         var multipliers = new List<decimal>();
         var combatBonuses = new List<int>();
@@ -33,41 +36,44 @@ internal static class PlayerGoldForecaster
                 // Lucky Fysh and Seal of Gold are visible reminders only. No future choices/turn counts assumed.
             }
         }
-        return Predict(player.Gold, player.RunState.AscensionLevel, futurePath,
-            new GoldForecastRules(multipliers, blocked, combatBonuses, floorBonuses));
+        return new GoldForecastRules(multipliers, blocked, combatBonuses, floorBonuses);
+    }
+
+    public static decimal ApplyGain(decimal amount, GoldForecastRules rules)
+    {
+        if (rules.CannotGainGold) return 0;
+        foreach (var multiplier in rules.GainMultipliers ?? Array.Empty<decimal>()) amount *= multiplier;
+        return decimal.Truncate(amount);
+    }
+
+    public static GoldEstimate CombatReward(int min, int max, GoldForecastRules rules, bool includeBonuses = true)
+    {
+        decimal total = 0;
+        for (var drop = min; drop <= max; drop++) total += ApplyGain(drop, rules);
+        var bonus = includeBonuses
+            ? (rules.CombatBonuses ?? Array.Empty<int>()).Sum(amount => ApplyGain(amount, rules)) : 0;
+        return new GoldEstimate(ApplyGain(min, rules) + bonus, total / (max - min + 1) + bonus);
     }
 
     // Pure calculation from public inputs. Does not invoke hooks, rewards, RNGs or game commands.
     public static PlayerGoldPrediction Predict(int currentGold, int ascension, IEnumerable<MapPoint> futurePath,
         GoldForecastRules rules)
     {
-        decimal Gain(decimal amount)
-        {
-            foreach (var multiplier in rules.GainMultipliers ?? Array.Empty<decimal>()) amount *= multiplier;
-            return decimal.Truncate(amount); // Once per acquisition, after every multiplier.
-        }
         decimal minimum = 0, average = 0;
         foreach (var point in futurePath)
         {
             // Includes entering the destination shop; spending at intermediate shops is not assumed.
             foreach (var floorGold in rules.FloorBonuses ?? Array.Empty<decimal>())
             {
-                var gold = Gain(floorGold);
+                var gold = ApplyGain(floorGold, rules);
                 minimum += gold;
                 average += gold;
             }
             if (point.PointType is not (MapPointType.Monster or MapPointType.Elite)) continue;
             var (min, max) = CombatGoldCalculator.RangeForPoint(point.PointType, ascension);
-            minimum += Gain(min);
-            decimal outcomeSum = 0;
-            for (var drop = min; drop <= max; drop++) outcomeSum += Gain(drop);
-            average += outcomeSum / (max - min + 1); // Mean of rounded outcomes, not rounded mean.
-            foreach (var bonus in rules.CombatBonuses ?? Array.Empty<int>())
-            {
-                var gold = Gain(bonus); // Aubergine is its own reward, not part of the base roll.
-                minimum += gold;
-                average += gold;
-            }
+            var combat = CombatReward(min, max, rules);
+            minimum += combat.Minimum;
+            average += combat.Average;
         }
         if (rules.CannotGainGold) minimum = average = 0; // Existing gold is never removed by Ectoplasm.
         return new PlayerGoldPrediction(currentGold, new GoldEstimate(minimum, average));

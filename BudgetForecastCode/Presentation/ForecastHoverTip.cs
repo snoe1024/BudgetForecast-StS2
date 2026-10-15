@@ -34,11 +34,13 @@ internal static class ForecastHoverTip
         var rows = run.Players.Select(player =>
         {
             var prediction = PlayerGoldForecaster.Predict(player, path);
+            var currentRoom = CurrentRoomGoldReader.Read(player);
             return new PlayerForecastDisplay(
                 multiplayer ? PlatformUtil.GetPlayerName(RunManager.Instance.NetService.Platform, player.NetId)
                     .Replace("\r", " ").Replace("\n", " ") : "",
                 multiplayer ? InlineIcon(player.Character.IconTexture.ResourcePath) : "",
-                prediction.Minimum, prediction.Average, CardRemovalForecast.ForPlayer(player),
+                prediction.Minimum + currentRoom.Combat.Minimum, prediction.Average + currentRoom.Combat.Average,
+                CardRemovalForecast.ForPlayer(player), CurrentRoomGoldLine: ChoiceLines(currentRoom.Choices),
                 DiscountRelicIcons: string.Join(" ", player.Relics
                     .Where(relic => !relic.IsMelted && relic is MembershipCard or TheCourier)
                     .OrderBy(relic => relic is MembershipCard ? 0 : 1)
@@ -66,6 +68,14 @@ internal static class ForecastHoverTip
             line.Add("gold", gold.ToString(CultureInfo.InvariantCulture));
             return line.GetFormattedText();
         }
+        string ChoiceLines(IReadOnlyList<GoldChoice> choices) => string.Join("\n", choices.Select(choice =>
+        {
+            var line = new LocString("static_hover_tips", choice.ChooseOne
+                ? "BUDGETFORECAST_SHOP.choice" : "BUDGETFORECAST_SHOP.obtain");
+            line.Add("options", string.Join(" / ", choice.Options.Select(option =>
+                $"{InlineIcon(option.IconPath)}: {option.Delta.ToString("+0;-0;0", CultureInfo.InvariantCulture)}G")));
+            return line.GetFormattedText();
+        }));
         description.Add("players", PlayerForecastParagraphs.Build(rows, multiplayer, showAverage, GoldLine, DeletionLine));
         description.Add("strategy", new LocString("static_hover_tips", "BUDGETFORECAST_STRATEGY." + strategy));
         var hoverTip = new HoverTip(new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.title"), description);
@@ -80,7 +90,9 @@ internal static class ForecastHoverTip
             if (ReferenceEquals(owned.Set, existing) && GodotObject.IsInstanceValid(owned.Card))
             {
                 // Change only our card; do not duplicate or remove other mods' tips on each wheel tick.
-                owned.Card!.GetNode<RichTextLabel>("%Description").Text = hoverTip.Description;
+                var label = owned.Card!.GetNode<RichTextLabel>("%Description");
+                if (label.Text == hoverTip.Description) return;
+                label.Text = hoverTip.Description;
                 owned.Card.ResetSize();
             }
             else

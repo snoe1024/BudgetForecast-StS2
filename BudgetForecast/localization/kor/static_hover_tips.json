@@ -8,5 +8,7 @@
   "BUDGETFORECAST_STRATEGY.MinimizeCombats": "전투 최소화 경로",
   "BUDGETFORECAST_STRATEGY.MaximizeRest": "휴식 최대화 경로",
   "BUDGETFORECAST_STRATEGY.MaximizeEvents": "이벤트 최대화 경로",
-  "BUDGETFORECAST_STRATEGY.MaximizeElites": "엘리트 최대화 경로"
+  "BUDGETFORECAST_STRATEGY.MaximizeElites": "엘리트 최대화 경로",
+  "BUDGETFORECAST_SHOP.choice": "선택 시 (하나만): {options}",
+  "BUDGETFORECAST_SHOP.obtain": "획득 시: {options}"
 }

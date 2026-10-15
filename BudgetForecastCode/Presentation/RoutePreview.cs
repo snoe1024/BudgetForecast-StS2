@@ -23,6 +23,7 @@ internal static class RoutePreview
         public IReadOnlyList<MapPoint>? Path;
         public RouteStrategy Strategy = RouteStrategy.Balance;
         public bool ShowAverage;
+        public ulong NextForecastRefresh;
     }
 
     private static readonly ConditionalWeakTable<NMapScreen, ScreenState> Screens = new();
@@ -47,6 +48,7 @@ internal static class RoutePreview
         state.Source = source;
         state.Path = path;
         state.ShowAverage = Input.IsKeyPressed(Key.Shift);
+        state.NextForecastRefresh = Time.GetTicksMsec() + 250;
         if (!GodotObject.IsInstanceValid(state.Line))
         {
             var parent = screen.GetNode<Control>("TheMap");
@@ -127,9 +129,10 @@ internal static class RoutePreview
             }
             UpdatePoints(screen, state); // Follow resize/point animations without recalculating the route.
             var showAverage = Input.IsKeyPressed(Key.Shift);
-            if (state.ShowAverage != showAverage)
+            if (state.ShowAverage != showAverage || Time.GetTicksMsec() >= state.NextForecastRefresh)
             {
                 state.ShowAverage = showAverage;
+                state.NextForecastRefresh = Time.GetTicksMsec() + 250;
                 var player = LocalContext.GetMe(state.Run);
                 if (player != null)
                     ForecastHoverTip.Show(state.Owner, state.Run,
