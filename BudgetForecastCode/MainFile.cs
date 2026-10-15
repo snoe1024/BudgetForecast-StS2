@@ -25,6 +25,6 @@ public partial class MainFile : Node
         harmony.PatchAll(assembly);
         foreach (var method in harmony.GetPatchedMethods())
             Logger.Info($"Patched {method.DeclaringType?.FullName}.{method.Name}");
-        Logger.Info("Temporary balance weights: " + string.Join(", ", Forecast.RouteStrategies.BalanceWeights.Select(pair => $"{pair.Key}={pair.Value}")));
+        Logger.Info("Balance routing: public map, party HP and rest/combat history heuristic.");
     }
 }

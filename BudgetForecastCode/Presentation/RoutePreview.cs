@@ -23,6 +23,7 @@ internal static class RoutePreview
         public IReadOnlyList<MapPoint>? Path;
         public RouteStrategy Strategy = RouteStrategy.Balance;
         public bool ShowAverage;
+        public string? ContextKey;
         public ulong NextForecastRefresh;
     }
 
@@ -32,10 +33,12 @@ internal static class RoutePreview
         MapPoint current, MapPoint shop, out bool cacheHit)
     {
         var state = Screens.GetValue(screen, _ => new ScreenState());
+        var context = BalanceContextReader.Read(run);
+        state.ContextKey = context.CacheKey;
         var path = state.Cache.GetOrCompute(run.Map, current, shop, state.Strategy.ToString(),
-            (from, to) => RouteStrategies.Find(from, to, state.Strategy), out cacheHit);
+            (from, to) => RouteStrategies.Find(from, to, state.Strategy, context), out cacheHit, state.ContextKey);
         if (path != null)
-            MainFile.Logger.Info($"Route cache {(cacheHit ? "hit" : "miss")}: shop=({shop.coord.col},{shop.coord.row}); strategy={state.Strategy}");
+            MainFile.Logger.Info($"Route cache {(cacheHit ? "hit" : "miss")}: shop=({shop.coord.col},{shop.coord.row}); strategy={state.Strategy}; balance={BalanceHeuristic.Evaluate(current, path, context):0.##}; lowestHP={context.LowestHpRatio:0.###}; history={context.Initial}");
         return path;
     }
 
@@ -136,6 +139,12 @@ internal static class RoutePreview
             var showAverage = Input.IsKeyPressed(Key.Shift);
             if (state.ShowAverage != showAverage || Time.GetTicksMsec() >= state.NextForecastRefresh)
             {
+                if (BalanceContextReader.Read(state.Run!).CacheKey != state.ContextKey)
+                {
+                    var refreshed = GetRoute(screen, state.Run!, current, state.Owner.Point, out _);
+                    if (refreshed != null) Show(screen, state.Owner, state.Run!, current, refreshed);
+                    return;
+                }
                 state.ShowAverage = showAverage;
                 state.NextForecastRefresh = Time.GetTicksMsec() + 250;
                 var player = LocalContext.GetMe(state.Run);

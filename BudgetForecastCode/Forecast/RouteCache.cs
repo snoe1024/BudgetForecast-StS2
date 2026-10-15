@@ -9,20 +9,23 @@ internal sealed class RouteCache
     private MapPoint? _source;
     private MapCoord _sourceCoord;
 
+    private string? _contextKey;
+
     public int Count => _routes.Count;
 
     public bool IsFor(object map, MapPoint current) =>
         ReferenceEquals(_map, map) && ReferenceEquals(_source, current) && _sourceCoord == current.coord;
 
     public IReadOnlyList<MapPoint>? GetOrCompute(object map, MapPoint current, MapPoint shop,
-        string strategy, Func<MapPoint, MapPoint, IReadOnlyList<MapPoint>?> calculate, out bool cacheHit)
+        string strategy, Func<MapPoint, MapPoint, IReadOnlyList<MapPoint>?> calculate, out bool cacheHit, string? contextKey = null)
     {
-        if (!IsFor(map, current))
+        if (!IsFor(map, current) || _contextKey != contextKey)
         {
             Clear();
             _map = map;
             _source = current;
             _sourceCoord = current.coord;
+            _contextKey = contextKey;
         }
         cacheHit = false;
         if (shop.PointType != MapPointType.Shop || shop.coord.row <= current.coord.row) return null;
@@ -44,5 +47,6 @@ internal sealed class RouteCache
         _routes.Clear();
         _map = null;
         _source = null;
+        _contextKey = null;
     }
 }
