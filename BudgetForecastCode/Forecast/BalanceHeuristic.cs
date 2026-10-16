@@ -20,7 +20,7 @@ internal static class BalanceHeuristic
     public static int BaseScore(MapPointType type) => type switch
     {
         MapPointType.Monster => 12, MapPointType.Unknown => 11, MapPointType.Elite => 20,
-        MapPointType.RestSite => 9, MapPointType.Treasure => 10, MapPointType.Shop => -5, _ => 0
+        MapPointType.RestSite => 24, MapPointType.Treasure => 10, MapPointType.Shop => 9, _ => 0
     };
 
     public static (decimal Score, RouteMemory Next) Step(MapPoint point, RouteMemory memory,
