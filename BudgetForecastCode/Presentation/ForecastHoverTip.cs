@@ -31,6 +31,7 @@ internal static class ForecastHoverTip
         var width = Math.Min(620f, Math.Max(300f, owner.GetViewportRect().Size.X - 60f));
         var description = new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.description");
         var multiplayer = RunManager.Instance.NetService.Type.IsMultiplayer() || run.Players.Count > 1;
+        var expanded = Input.IsKeyPressed(Key.Shift);
         var rows = run.Players.Select(player =>
         {
             var currentRoom = CurrentRoomGoldReader.Read(player, path);
@@ -44,7 +45,8 @@ internal static class ForecastHoverTip
                 multiplayer ? InlineIcon(player.Character.IconTexture.ResourcePath) : "",
                 prediction.Minimum, prediction.Average,
                 CardRemovalForecast.ForPlayer(player), CurrentRoomGoldLine: string.Join("\n",
-                    new[] { ChoiceLines(currentRoom.Choices), ForecastDetailText.Format(details, true), SealAssumption(player) }
+                    new[] { ChoiceLines(currentRoom.Choices), ForecastDetailText.Format(details, expanded),
+                        expanded ? SealAssumption(player) : "" }
                     .Where(line => !string.IsNullOrEmpty(line))),
                 DiscountRelicIcons: string.Join(" ", player.Relics
                     .Where(relic => !relic.IsMelted && relic is MembershipCard or TheCourier)
@@ -78,7 +80,7 @@ internal static class ForecastHoverTip
             var line = new LocString("static_hover_tips", choice.ChooseOne
                 ? "BUDGETFORECAST_SHOP.choice" : "BUDGETFORECAST_SHOP.obtain");
             line.Add("options", string.Join(" / ", choice.Options.Select(option =>
-                $"{InlineIcon(option.IconPath)}: {option.Delta.ToString("+0;-0;0", CultureInfo.InvariantCulture)}G")));
+                $"{InlineIcon(option.IconPath)} {option.Delta.ToString("+0;-0;0", CultureInfo.InvariantCulture)}G")));
             return line.GetFormattedText();
         }));
         description.Add("players", PlayerForecastParagraphs.Build(rows, multiplayer, GoldLine, DeletionLine));

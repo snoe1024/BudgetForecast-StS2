@@ -25,6 +25,7 @@ internal static class RoutePreview
         public string? ContextKey;
         public ulong NextForecastRefresh;
         public bool SuppressRightRelease;
+        public bool Expanded;
     }
 
     private static readonly ConditionalWeakTable<NMapScreen, ScreenState> Screens = new();
@@ -98,6 +99,7 @@ internal static class RoutePreview
         state.Run = run;
         state.Source = source;
         state.Path = path;
+        state.Expanded = Input.IsKeyPressed(Key.Shift);
         state.NextForecastRefresh = Time.GetTicksMsec() + 250;
         if (!GodotObject.IsInstanceValid(state.Line))
         {
@@ -183,7 +185,8 @@ internal static class RoutePreview
                 return;
             }
             UpdatePoints(screen, state); // Follow resize/point animations without recalculating the route.
-            if (Time.GetTicksMsec() >= state.NextForecastRefresh)
+            var expanded = Input.IsKeyPressed(Key.Shift);
+            if (expanded != state.Expanded || Time.GetTicksMsec() >= state.NextForecastRefresh)
             {
                 if (BalanceContextReader.Read(state.Run!).CacheKey != state.ContextKey)
                 {
@@ -192,6 +195,7 @@ internal static class RoutePreview
                     return;
                 }
                 state.NextForecastRefresh = Time.GetTicksMsec() + 250;
+                state.Expanded = expanded;
                 var player = LocalContext.GetMe(state.Run);
                 if (player != null)
                     ForecastHoverTip.Show(state.Owner, state.Run,

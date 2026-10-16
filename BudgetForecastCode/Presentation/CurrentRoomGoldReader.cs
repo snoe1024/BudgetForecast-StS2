@@ -78,7 +78,9 @@ internal static class CurrentRoomGoldReader
                     with { QuestBonuses = rules.QuestBonuses };
                 return new ForecastDetail(option.Title.GetFormattedText(),
                     PlayerGoldForecaster.ArrivalChange(player.Gold, run.AscensionLevel, path, rules, afterRules),
-                    Icons: $"[img width=24 height=24]{relic.IconPath}[/img]", Note: "relicRoute");
+                    Icons: $"[img width=24 height=24]{relic.IconPath}[/img]", Note: "relicRoute",
+                    MaximumDelta: PlayerGoldForecaster.ArrivalChangeMaximum(player.Gold, run.AscensionLevel,
+                        path, rules, afterRules));
             }).ToArray();
         return new CurrentRoomGold(new GoldEstimate(0, 0), options.Length == 0
             ? Array.Empty<GoldChoice>() : new[] { new GoldChoice(options, ChooseOne: true) }, projections);

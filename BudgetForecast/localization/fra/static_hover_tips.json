@@ -1,9 +1,9 @@
 {
   "BUDGETFORECAST_SHOP.title": "Or à l’arrivée à la boutique",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Maj + molette : stratégie / Maj + clic droit : partager le trajet[/p]",
-  "BUDGETFORECAST_SHOP.gold": "Minimum : {minimum}G{averageLine}",
-  "BUDGETFORECAST_SHOP.average": ", Moyenne : {average}G",
-  "BUDGETFORECAST_SHOP.deletion": "{icon}: {gold}G",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Maj : détails ; molette : stratégie ; clic droit : partager[/p]",
+  "BUDGETFORECAST_SHOP.gold": "Min. {minimum}{averageLine}",
+  "BUDGETFORECAST_SHOP.average": " / Moy. {average}G",
+  "BUDGETFORECAST_SHOP.deletion": "{icon}{gold}G",
   "BUDGETFORECAST_STRATEGY.Balance": "Itinéraire équilibré",
   "BUDGETFORECAST_STRATEGY.MinimizeCombats": "Combats minimum",
   "BUDGETFORECAST_STRATEGY.MaximizeRest": "Repos maximum",

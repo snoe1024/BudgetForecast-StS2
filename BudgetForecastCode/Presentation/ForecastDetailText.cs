@@ -8,18 +8,28 @@ namespace BudgetForecast.BudgetForecastCode.Presentation;
 
 internal static class ForecastDetailText
 {
-    public static string Format(IEnumerable<ForecastDetail> details, bool showAverage)
+    public static string Format(IEnumerable<ForecastDetail> details, bool expanded)
         => string.Join("\n", ForecastDetailGroups.Build(details).Select(group =>
         {
             var parts = new List<string>();
             if (!string.IsNullOrEmpty(group.Title)) parts.Add(group.Title + ":");
+            if (!expanded)
+            {
+                // Keep the identity of each choice, but move effect breakdowns and notes behind Shift.
+                if (string.IsNullOrEmpty(group.Title))
+                    parts.AddRange(group.Parts.Select(detail => detail.Icons).Where(icons => !string.IsNullOrEmpty(icons)).Distinct());
+                var maximum = CompactForecastDetails.Maximum(group);
+                if (maximum.HasValue) parts.Add(Signed(maximum.Value) + "G");
+                else return ""; // Unknown rewards are described in the expanded view only.
+                return string.Join(" ", parts);
+            }
             parts.AddRange(group.Parts.Select(detail => detail.Icons).Where(icons => !string.IsNullOrEmpty(icons)).Distinct());
             var deltas = group.Parts.Where(detail => detail.Delta.HasValue).Select(detail => detail.Delta!.Value).ToArray();
             if (deltas.Length > 0)
             {
                 var delta = new GoldEstimate(deltas.Sum(value => value.Minimum), deltas.Sum(value => value.Average));
                 parts.Add(Signed(delta.Minimum) + "G");
-                if (showAverage && delta.Average != delta.Minimum)
+                if (delta.Average != delta.Minimum)
                 {
                     var mean = new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.average");
                     mean.Add("average", Signed(delta.Average));
@@ -39,7 +49,7 @@ internal static class ForecastDetailText
             foreach (var note in group.Parts.Select(detail => detail.Note).OfType<string>().Distinct())
                 parts.Add(new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.note." + note).GetFormattedText());
             return string.Join(" ", parts);
-        }));
+        }).Where(line => !string.IsNullOrEmpty(line)));
 
     private static string Signed(decimal amount) => amount.ToString("+0.#;-0.#;0", CultureInfo.InvariantCulture);
     private static string Icon(string path) => $"[img width=24 height=24]{path}[/img]";

@@ -1,9 +1,9 @@
 {
   "BUDGETFORECAST_SHOP.title": "Gold bei Ankunft im Laden",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Umschalt + Mausrad: Strategie / Umschalt + Rechtsklick: Route teilen[/p]",
-  "BUDGETFORECAST_SHOP.gold": "Minimum: {minimum}G{averageLine}",
-  "BUDGETFORECAST_SHOP.average": ", Durchschnitt: {average}G",
-  "BUDGETFORECAST_SHOP.deletion": "{icon}: {gold}G",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Umschalt: Details; Mausrad: Strategie; Rechtsklick: Teilen[/p]",
+  "BUDGETFORECAST_SHOP.gold": "Min. {minimum}{averageLine}",
+  "BUDGETFORECAST_SHOP.average": " / Ø {average}G",
+  "BUDGETFORECAST_SHOP.deletion": "{icon}{gold}G",
   "BUDGETFORECAST_STRATEGY.Balance": "Ausgewogene Route",
   "BUDGETFORECAST_STRATEGY.MinimizeCombats": "Route mit den wenigsten Kämpfen",
   "BUDGETFORECAST_STRATEGY.MaximizeRest": "Route mit den meisten Rastplätzen",

@@ -137,4 +137,67 @@ internal static class PlayerGoldForecaster
         var after = Predict(currentGold, ascension, path, afterRules, new GoldEstimate(instant, instant));
         return new GoldEstimate(after.Minimum - before.Minimum, after.Average - before.Average);
     }
+
+    // Public gold distributions only; evaluate both relic sets against the SAME drop, without any RNG calls.
+    public static decimal ArrivalChangeMaximum(int currentGold, int ascension, IReadOnlyList<MapPoint> path,
+        GoldForecastRules beforeRules, GoldForecastRules afterRules, decimal instant = 0)
+    {
+        decimal Budget(GoldForecastRules r) => r.SealLossPerTurn * path.Sum(p => p.PointType switch
+            { MapPointType.Monster => r.NormalTurns, MapPointType.Elite => r.EliteTurns, _ => 0 });
+        decimal Reward(int drop, GoldForecastRules r) => ApplyGain(drop, r) +
+            (r.CombatBonuses ?? Array.Empty<int>()).Sum(value => ApplyGain(value, r));
+        // With all payments funded, each fight can be maximized independently, including multiplier rounding.
+        if (currentGold >= Budget(beforeRules) && currentGold + instant >= Budget(afterRules))
+        {
+            var result = ArrivalChange(currentGold, ascension, path, beforeRules, afterRules, instant).Minimum;
+            foreach (var point in path.Where(p => p.PointType is MapPointType.Monster or MapPointType.Elite))
+            {
+                var (min, max) = CombatGoldCalculator.RangeForPoint(point.PointType, ascension);
+                var best = Enumerable.Range(min, max-min+1).Max(drop => Reward(drop, afterRules)-Reward(drop, beforeRules));
+                result += best - (Reward(min, afterRules)-Reward(min, beforeRules));
+            }
+            return result;
+        }
+        // Low wallets can change which Seal payments occur. Retain reachable wallet pairs, merging equal states.
+        decimal[] FixedIncome(GoldForecastRules r)
+        {
+            var claimed = new HashSet<int>();
+            var treasures = r.TreasureRoomsEntered;
+            return path.Select(point =>
+            {
+                var gold = (r.FloorBonuses ?? Array.Empty<decimal>()).Sum(value => ApplyGain(value,r));
+                if (point.PointType == MapPointType.Treasure)
+                {
+                    if (treasures.HasValue) treasures++;
+                    if ((!treasures.HasValue || treasures > 1) && r.QuestBonuses != null &&
+                        r.QuestBonuses.TryGetValue(point.coord,out var bonuses))
+                        foreach (var bonus in bonuses.Where(bonus => claimed.Add(bonus.Claim))) gold += ApplyGain(bonus.Amount,r);
+                }
+                return gold;
+            }).ToArray();
+        }
+        var beforeIncome=FixedIncome(beforeRules);
+        var afterIncome=FixedIncome(afterRules);
+        var states=new HashSet<(decimal Before,decimal After)> { (currentGold,currentGold+instant) };
+        for(var index=0;index<path.Count;index++)
+        {
+            var type=path[index].PointType;
+            var next=new HashSet<(decimal Before,decimal After)>();
+            foreach(var state in states)
+            {
+                var before=state.Before+beforeIncome[index];
+                var after=state.After+afterIncome[index];
+                if(type is MapPointType.Monster or MapPointType.Elite)
+                {
+                    before-=SealCost(before,type==MapPointType.Elite?beforeRules.EliteTurns:beforeRules.NormalTurns,beforeRules);
+                    after-=SealCost(after,type==MapPointType.Elite?afterRules.EliteTurns:afterRules.NormalTurns,afterRules);
+                    var (min,max)=CombatGoldCalculator.RangeForPoint(type,ascension);
+                    for(var drop=min;drop<=max;drop++) next.Add((before+Reward(drop,beforeRules),after+Reward(drop,afterRules)));
+                }
+                else next.Add((before,after));
+            }
+            states=next;
+        }
+        return states.Max(state=>state.After-state.Before);
+    }
 }

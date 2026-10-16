@@ -14,11 +14,11 @@ internal static class PlayerForecastParagraphs
             var lines = new List<string>();
             if (multiplayer) lines.Add($"{player.CharacterIcon} {player.Name}");
             lines.Add(goldLine(player.Minimum, player.Average) +
-                (string.IsNullOrEmpty(player.GoldRelicIcons) ? "" : " " + player.GoldRelicIcons));
+                (string.IsNullOrEmpty(player.GoldRelicIcons) ? "" : " " + player.GoldRelicIcons) +
+                "　" + deletionLine(player.DeletionGold) +
+                (string.IsNullOrEmpty(player.DiscountRelicIcons) ? "" : " " + player.DiscountRelicIcons));
             // Optional current-room choices disappear without leaving an empty line.
             if (!string.IsNullOrEmpty(player.CurrentRoomGoldLine)) lines.Add(player.CurrentRoomGoldLine);
-            lines.Add(deletionLine(player.DeletionGold) +
-                (string.IsNullOrEmpty(player.DiscountRelicIcons) ? "" : " " + player.DiscountRelicIcons));
             return "[p]" + string.Join("\n", lines) + "[/p]";
         }));
     }

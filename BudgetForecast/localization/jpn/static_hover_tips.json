@@ -1,9 +1,9 @@
 {
   "BUDGETFORECAST_SHOP.title": "ショップ到着時の所持金",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift＋ホイールで戦略切替 / Shift＋右クリックでルート共有[/p]",
-  "BUDGETFORECAST_SHOP.gold": "最低値: {minimum}G{averageLine}",
-  "BUDGETFORECAST_SHOP.average": ", 平均値: {average}G",
-  "BUDGETFORECAST_SHOP.deletion": "{icon}: {gold}G",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift: 詳細・ホイール切替・右クリック共有[/p]",
+  "BUDGETFORECAST_SHOP.gold": "最低{minimum}{averageLine}",
+  "BUDGETFORECAST_SHOP.average": " / 平均{average}G",
+  "BUDGETFORECAST_SHOP.deletion": "{icon}{gold}G",
   "BUDGETFORECAST_STRATEGY.Balance": "バランスルート",
   "BUDGETFORECAST_STRATEGY.MinimizeCombats": "戦闘最小化ルート",
   "BUDGETFORECAST_STRATEGY.MaximizeRest": "休憩最大化ルート",

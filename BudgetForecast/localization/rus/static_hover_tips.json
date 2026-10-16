@@ -1,9 +1,9 @@
 {
   "BUDGETFORECAST_SHOP.title": "Золото по прибытии в магазин",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift + колесо: стратегия / Shift + ПКМ: поделиться маршрутом[/p]",
-  "BUDGETFORECAST_SHOP.gold": "Минимум: {minimum}G{averageLine}",
-  "BUDGETFORECAST_SHOP.average": ", Среднее: {average}G",
-  "BUDGETFORECAST_SHOP.deletion": "{icon}: {gold}G",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift: детали; колесо: стратегия; ПКМ: поделиться[/p]",
+  "BUDGETFORECAST_SHOP.gold": "Мин. {minimum}{averageLine}",
+  "BUDGETFORECAST_SHOP.average": " / Ср. {average}G",
+  "BUDGETFORECAST_SHOP.deletion": "{icon}{gold}G",
   "BUDGETFORECAST_STRATEGY.Balance": "Сбалансированный маршрут",
   "BUDGETFORECAST_STRATEGY.MinimizeCombats": "Минимум боёв",
   "BUDGETFORECAST_STRATEGY.MaximizeRest": "Максимум отдыха",

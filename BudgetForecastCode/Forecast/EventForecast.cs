@@ -6,7 +6,8 @@ namespace BudgetForecast.BudgetForecastCode.Forecast;
 // Semantic output, independent of tooltip layout and game UI objects.
 internal sealed record CardGoldHint(decimal PerCard, int Count, bool Optional, bool Doubled);
 internal sealed record ForecastDetail(string Title, GoldEstimate? Delta = null,
-    CardGoldHint? Cards = null, string Icons = "", string? Note = null, string? ChoiceKey = null);
+    CardGoldHint? Cards = null, string Icons = "", string? Note = null, string? ChoiceKey = null,
+    decimal? MaximumDelta = null);
 internal sealed record ForecastDetailGroup(string Title, IReadOnlyList<ForecastDetail> Parts);
 
 internal static class ForecastDetailGroups
@@ -67,6 +68,7 @@ internal static class EventForecast
             var cost = rule.LoseAll ? state.Gold : rule.CostVar == null ? 0 :
                 Math.Min(state.Gold, decimal.Truncate(state.Vars[rule.CostVar]));
             decimal min = gain - cost, mean = min;
+            decimal maximum = min;
             if (rule.Combat)
             {
                 var low = (int)state.Vars["CombatMin"];
@@ -75,6 +77,7 @@ internal static class EventForecast
                 var spending = PlayerGoldForecaster.SealCost(state.Gold - cost, state.Rules.NormalTurns, state.Rules);
                 min += combat.Minimum - spending;
                 mean += combat.Average - spending;
+                maximum += PlayerGoldForecaster.CombatReward(high, high, state.Rules).Minimum - spending;
             }
             int count;
             switch (rule.CardsFrom)
@@ -94,20 +97,25 @@ internal static class EventForecast
                 var perCard = PlayerGoldForecaster.ApplyGain(state.LuckyGold.Value, state.Rules);
                 var copies = state.BingBong ? 2 : 1;
                 cards = new CardGoldHint(perCard, count, rule.OptionalCards, state.BingBong);
-                if (!rule.OptionalCards) { min += perCard * copies * count; mean += perCard * copies * count; }
+                if (!rule.OptionalCards)
+                {
+                    min += perCard * copies * count; mean += perCard * copies * count;
+                    maximum += perCard * copies * count;
+                }
             }
             if (rule.Potions)
             {
                 if (!state.Vars.ContainsKey("FoulPotions") || !state.Vars.ContainsKey("FoulPotionGold")) continue;
                 count = Math.Min((int)state.Vars["FoulPotions"], state.FreePotionSlots);
                 min = mean = PlayerGoldForecaster.ApplyGain(state.Vars["FoulPotionGold"], state.Rules) * count;
+                maximum = min;
             }
             var hasMoney = rule.GainVar != null || rule.Gain != 0 || rule.CostVar != null || rule.LoseAll ||
                 rule.Combat || rule.Potions || cards is { Optional: false };
             if (!hasMoney && cards == null && rule.Note == null) continue;
             result.Add(new ForecastDetail(choice.Title, hasMoney ? new GoldEstimate(min, mean) : null, cards,
                 Icons: rule.Potions ? $"×{count}" : "", Note: rule.Potions ? "potions" : rule.Note,
-                ChoiceKey: choice.Key + "#" + index));
+                ChoiceKey: choice.Key + "#" + index, MaximumDelta: hasMoney ? maximum : null));
             if (state.LuckyGold.HasValue && rule.ExtraOptionalCards > 0)
                 result.Add(new ForecastDetail(choice.Title, Cards: new CardGoldHint(
                     PlayerGoldForecaster.ApplyGain(state.LuckyGold.Value, state.Rules), rule.ExtraOptionalCards,

@@ -1,9 +1,9 @@
 {
   "BUDGETFORECAST_SHOP.title": "상점 도착 시 골드",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift + 휠: 전략 변경 / Shift + 우클릭: 경로 공유[/p]",
-  "BUDGETFORECAST_SHOP.gold": "최솟값: {minimum}G{averageLine}",
-  "BUDGETFORECAST_SHOP.average": ", 평균값: {average}G",
-  "BUDGETFORECAST_SHOP.deletion": "{icon}: {gold}G",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift: 상세 · 휠: 전략 · 우클릭: 공유[/p]",
+  "BUDGETFORECAST_SHOP.gold": "최소 {minimum}{averageLine}",
+  "BUDGETFORECAST_SHOP.average": " / 평균 {average}G",
+  "BUDGETFORECAST_SHOP.deletion": "{icon}{gold}G",
   "BUDGETFORECAST_STRATEGY.Balance": "균형 경로",
   "BUDGETFORECAST_STRATEGY.MinimizeCombats": "전투 최소화 경로",
   "BUDGETFORECAST_STRATEGY.MaximizeRest": "휴식 최대화 경로",

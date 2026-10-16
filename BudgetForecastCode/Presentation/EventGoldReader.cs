@@ -64,7 +64,9 @@ internal static class EventGoldReader
             yield return new ForecastDetail(option.Title.GetFormattedText(),
                 PlayerGoldForecaster.ArrivalChange(player.Gold, player.RunState.AscensionLevel, path,
                     beforeRules, afterRules, instant),
-                Icons: Icon(oldRelic.IconPath) + " → " + Icon(newRelic.IconPath), Note: "trade");
+                Icons: Icon(oldRelic.IconPath) + " → " + Icon(newRelic.IconPath), Note: "trade",
+                MaximumDelta: PlayerGoldForecaster.ArrivalChangeMaximum(player.Gold, player.RunState.AscensionLevel,
+                    path, beforeRules, afterRules, instant));
         }
     }
 

@@ -1,9 +1,9 @@
 {
   "BUDGETFORECAST_SHOP.title": "Oro al llegar a la tienda",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Mayús + rueda: estrategia / Mayús + clic derecho: compartir ruta[/p]",
-  "BUDGETFORECAST_SHOP.gold": "Mínimo: {minimum}G{averageLine}",
-  "BUDGETFORECAST_SHOP.average": ", Media: {average}G",
-  "BUDGETFORECAST_SHOP.deletion": "{icon}: {gold}G",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Mayús: detalles; rueda: estrategia; clic derecho: compartir[/p]",
+  "BUDGETFORECAST_SHOP.gold": "Mín. {minimum}{averageLine}",
+  "BUDGETFORECAST_SHOP.average": " / Media {average}G",
+  "BUDGETFORECAST_SHOP.deletion": "{icon}{gold}G",
   "BUDGETFORECAST_STRATEGY.Balance": "Ruta equilibrada",
   "BUDGETFORECAST_STRATEGY.MinimizeCombats": "Combates mínimos",
   "BUDGETFORECAST_STRATEGY.MaximizeRest": "Descansos máximos",

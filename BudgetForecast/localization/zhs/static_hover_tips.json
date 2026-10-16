@@ -1,9 +1,9 @@
 {
   "BUDGETFORECAST_SHOP.title": "到达商店时的金币",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift+滚轮：切换策略 / Shift+右键：分享路线[/p]",
-  "BUDGETFORECAST_SHOP.gold": "最低值：{minimum}G{averageLine}",
-  "BUDGETFORECAST_SHOP.average": ", 平均值：{average}G",
-  "BUDGETFORECAST_SHOP.deletion": "{icon}: {gold}G",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift：详情；滚轮：策略；右键：分享[/p]",
+  "BUDGETFORECAST_SHOP.gold": "最低{minimum}{averageLine}",
+  "BUDGETFORECAST_SHOP.average": " / 平均{average}G",
+  "BUDGETFORECAST_SHOP.deletion": "{icon}{gold}G",
   "BUDGETFORECAST_STRATEGY.Balance": "均衡路线",
   "BUDGETFORECAST_STRATEGY.MinimizeCombats": "战斗最少路线",
   "BUDGETFORECAST_STRATEGY.MaximizeRest": "休息最多路线",
