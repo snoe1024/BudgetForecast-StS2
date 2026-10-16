@@ -1,9 +1,9 @@
 {
   "BUDGETFORECAST.mod_title": "BudgetForecast",
-  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.title": "Züge im normalen Kampf",
-  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.hover.desc": "Angenommene Züge für die Goldausgaben. Abzug von Minimum und Durchschnitt.",
+  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.title": "Angenommene Züge: normal",
+  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.hover.desc": "Für die Ausgaben mit Goldsiegel. Werden vom Mindest- und Durchschnittswert abgezogen.",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.sliderFormat": "{0:0.0}",
-  "BUDGETFORECAST-ELITE_COMBAT_TURNS.title": "Züge im Elitekampf",
-  "BUDGETFORECAST-ELITE_COMBAT_TURNS.hover.desc": "Angenommene Züge für die Goldausgaben. Abzug von Minimum und Durchschnitt.",
+  "BUDGETFORECAST-ELITE_COMBAT_TURNS.title": "Angenommene Züge: Elite",
+  "BUDGETFORECAST-ELITE_COMBAT_TURNS.hover.desc": "Für die Ausgaben mit Goldsiegel. Werden vom Mindest- und Durchschnittswert abgezogen.",
   "BUDGETFORECAST-ELITE_COMBAT_TURNS.sliderFormat": "{0:0.0}"
 }

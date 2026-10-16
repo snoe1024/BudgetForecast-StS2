@@ -1,9 +1,9 @@
 {
   "id": "BudgetForecast",
-  "name": "BudgetForecast",
+  "name": "Budget Forecast",
   "author": "snoe1024",
-  "description": "Shows shop gold forecasts and colored routes; hold Shift and scroll over a shop to switch strategies.",
-  "version": "v0.10.1",
+  "description": "Shows shop gold forecasts depending on the relics you possess and your current options.",
+  "version": "v0.10.2",
   "min_game_version": "0.107.0",
   "has_pck": true,
   "has_dll": true,

@@ -1,9 +1,9 @@
 {
   "BUDGETFORECAST.mod_title": "BudgetForecast",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.title": "普通战斗预计回合数",
-  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.hover.desc": "用于计算金币支出的预计回合数，同时从最低值和平均值中扣除。",
+  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.hover.desc": "用于计算黄金印的支出。从最低值和平均值中均扣除。",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.sliderFormat": "{0:0.0}",
   "BUDGETFORECAST-ELITE_COMBAT_TURNS.title": "精英战斗预计回合数",
-  "BUDGETFORECAST-ELITE_COMBAT_TURNS.hover.desc": "用于计算金币支出的预计回合数，同时从最低值和平均值中扣除。",
+  "BUDGETFORECAST-ELITE_COMBAT_TURNS.hover.desc": "用于计算黄金印的支出。从最低值和平均值中均扣除。",
   "BUDGETFORECAST-ELITE_COMBAT_TURNS.sliderFormat": "{0:0.0}"
 }

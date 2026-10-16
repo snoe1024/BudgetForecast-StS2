@@ -1,9 +1,9 @@
 {
   "BUDGETFORECAST.mod_title": "BudgetForecast",
-  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.title": "Ходы обычного боя",
-  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.hover.desc": "Предполагаемые ходы для расходов золота. Вычитаются из минимума и среднего.",
+  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.title": "Ожидаемые ходы: обычный бой",
+  "BUDGETFORECAST-NORMAL_COMBAT_TURNS.hover.desc": "Для расчёта расходов реликвии «Золотая печать». Вычитаются из минимума и среднего.",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.sliderFormat": "{0:0.0}",
-  "BUDGETFORECAST-ELITE_COMBAT_TURNS.title": "Ходы элитного боя",
-  "BUDGETFORECAST-ELITE_COMBAT_TURNS.hover.desc": "Предполагаемые ходы для расходов золота. Вычитаются из минимума и среднего.",
+  "BUDGETFORECAST-ELITE_COMBAT_TURNS.title": "Ожидаемые ходы: элитный бой",
+  "BUDGETFORECAST-ELITE_COMBAT_TURNS.hover.desc": "Для расчёта расходов реликвии «Золотая печать». Вычитаются из минимума и среднего.",
   "BUDGETFORECAST-ELITE_COMBAT_TURNS.sliderFormat": "{0:0.0}"
 }
