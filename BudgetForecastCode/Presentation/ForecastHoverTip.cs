@@ -84,6 +84,8 @@ internal static class ForecastHoverTip
             return line.GetFormattedText();
         }));
         description.Add("players", PlayerForecastParagraphs.Build(rows, multiplayer, GoldLine, DeletionLine));
+        description.Add("expandedControls", expanded ? "\n" +
+            new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.expandedControls").GetFormattedText() : "");
         description.Add("strategy", new LocString("static_hover_tips", "BUDGETFORECAST_STRATEGY." + strategy));
         var hoverTip = new HoverTip(new LocString("static_hover_tips", "BUDGETFORECAST_SHOP.title"), description);
 

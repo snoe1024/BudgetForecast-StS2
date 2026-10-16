@@ -1,6 +1,6 @@
 {
   "BUDGETFORECAST_SHOP.title": "Gold on arrival at the shop",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift: details; scroll to switch; right-click to share[/p]",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Hold Shift for details{expandedControls}[/p]",
   "BUDGETFORECAST_SHOP.gold": "Min {minimum}{averageLine}",
   "BUDGETFORECAST_SHOP.average": " / Avg {average}G",
   "BUDGETFORECAST_SHOP.deletion": "{icon}{gold}G",
@@ -22,5 +22,6 @@
   "BUDGETFORECAST_SHOP.note.revealed": "(revealed; unclaimed)",
   "BUDGETFORECAST_SHOP.note.cardsPending": "(card selection pending)",
   "BUDGETFORECAST_SHOP.sealTurns": "{icon} Assumed turns: normal {normal} / elite {elite}",
-  "BUDGETFORECAST_SHOP.note.relicRoute": "(arrival change if chosen)"
+  "BUDGETFORECAST_SHOP.note.relicRoute": "(arrival change if chosen)",
+  "BUDGETFORECAST_SHOP.expandedControls": "Shift + scroll to switch route strategy\nShift + right-click to share the route"
 }

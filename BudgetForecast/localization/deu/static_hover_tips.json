@@ -1,6 +1,6 @@
 {
   "BUDGETFORECAST_SHOP.title": "Gold bei Ankunft im Laden",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Umschalt: Details; Mausrad: Strategie; Rechtsklick: Teilen[/p]",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Umschalt für Details gedrückt halten{expandedControls}[/p]",
   "BUDGETFORECAST_SHOP.gold": "Min. {minimum}{averageLine}",
   "BUDGETFORECAST_SHOP.average": " / Ø {average}G",
   "BUDGETFORECAST_SHOP.deletion": "{icon}{gold}G",
@@ -22,5 +22,6 @@
   "BUDGETFORECAST_SHOP.note.revealed": "(aufgedeckt; nicht abgeholt)",
   "BUDGETFORECAST_SHOP.note.cardsPending": "(Kartenwahl offen)",
   "BUDGETFORECAST_SHOP.sealTurns": "{icon} Angenommene Züge: normal {normal} / Elite {elite}",
-  "BUDGETFORECAST_SHOP.note.relicRoute": "(Änderung bei Ankunft nach Wahl)"
+  "BUDGETFORECAST_SHOP.note.relicRoute": "(Änderung bei Ankunft nach Wahl)",
+  "BUDGETFORECAST_SHOP.expandedControls": "Umschalt + Mausrad: Routenstrategie wechseln\nUmschalt + Rechtsklick: Route teilen"
 }

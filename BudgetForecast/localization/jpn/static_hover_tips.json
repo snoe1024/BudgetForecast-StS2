@@ -1,6 +1,6 @@
 {
   "BUDGETFORECAST_SHOP.title": "ショップ到着時の所持金",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift: 詳細・ホイール切替・右クリック共有[/p]",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift長押しで詳細表示{expandedControls}[/p]",
   "BUDGETFORECAST_SHOP.gold": "最低{minimum}{averageLine}",
   "BUDGETFORECAST_SHOP.average": " / 平均{average}G",
   "BUDGETFORECAST_SHOP.deletion": "{icon}{gold}G",
@@ -22,5 +22,6 @@
   "BUDGETFORECAST_SHOP.note.revealed": "（発見済み・未受取）",
   "BUDGETFORECAST_SHOP.note.cardsPending": "（カード選択待ち）",
   "BUDGETFORECAST_SHOP.sealTurns": "{icon} 想定: 通常{normal} / エリート{elite}ターン",
-  "BUDGETFORECAST_SHOP.note.relicRoute": "（選択した場合の到着時金額の差）"
+  "BUDGETFORECAST_SHOP.note.relicRoute": "（選択した場合の到着時金額の差）",
+  "BUDGETFORECAST_SHOP.expandedControls": "Shift＋ホイールでルート戦略を切り替え\nShift＋右クリックでルートを共有"
 }

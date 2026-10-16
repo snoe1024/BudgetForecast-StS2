@@ -1,6 +1,6 @@
 {
   "BUDGETFORECAST_SHOP.title": "抵達商店時的金幣",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift：詳情；滾輪：策略；右鍵：分享[/p]",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]按住 Shift 顯示詳情{expandedControls}[/p]",
   "BUDGETFORECAST_SHOP.gold": "最低 {minimum}{averageLine}",
   "BUDGETFORECAST_SHOP.average": " / 平均 {average}G",
   "BUDGETFORECAST_SHOP.deletion": "{icon}{gold}G",
@@ -22,5 +22,6 @@
   "BUDGETFORECAST_SHOP.note.revealed": "（已發現，未領取）",
   "BUDGETFORECAST_SHOP.note.cardsPending": "（等待選牌）",
   "BUDGETFORECAST_SHOP.sealTurns": "{icon} 預計回合：普通 {normal} / 精英 {elite}",
-  "BUDGETFORECAST_SHOP.note.relicRoute": "（選擇後的到店金額變化）"
+  "BUDGETFORECAST_SHOP.note.relicRoute": "（選擇後的到店金額變化）",
+  "BUDGETFORECAST_SHOP.expandedControls": "Shift + 滾輪：切換路線策略\nShift + 右鍵：分享路線"
 }

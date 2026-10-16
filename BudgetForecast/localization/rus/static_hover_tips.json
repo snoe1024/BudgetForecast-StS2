@@ -1,6 +1,6 @@
 {
   "BUDGETFORECAST_SHOP.title": "Золото по прибытии в магазин",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift: детали; колесо: стратегия; ПКМ: поделиться[/p]",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Удерживайте Shift для подробностей{expandedControls}[/p]",
   "BUDGETFORECAST_SHOP.gold": "Мин. {minimum}{averageLine}",
   "BUDGETFORECAST_SHOP.average": " / Ср. {average}G",
   "BUDGETFORECAST_SHOP.deletion": "{icon}{gold}G",
@@ -22,5 +22,6 @@
   "BUDGETFORECAST_SHOP.note.revealed": "(обнаружено; не получено)",
   "BUDGETFORECAST_SHOP.note.cardsPending": "(ожидается выбор карты)",
   "BUDGETFORECAST_SHOP.sealTurns": "{icon} Ходы: обычный бой {normal} / элита {elite}",
-  "BUDGETFORECAST_SHOP.note.relicRoute": "(изменение суммы по прибытии при выборе)"
+  "BUDGETFORECAST_SHOP.note.relicRoute": "(изменение суммы по прибытии при выборе)",
+  "BUDGETFORECAST_SHOP.expandedControls": "Shift + колесо: сменить стратегию маршрута\nShift + ПКМ: поделиться маршрутом"
 }

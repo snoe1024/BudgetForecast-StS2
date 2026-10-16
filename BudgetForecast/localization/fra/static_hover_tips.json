@@ -1,6 +1,6 @@
 {
   "BUDGETFORECAST_SHOP.title": "Or à l’arrivée à la boutique",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Maj : détails ; molette : stratégie ; clic droit : partager[/p]",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Maintenez Maj pour les détails{expandedControls}[/p]",
   "BUDGETFORECAST_SHOP.gold": "Min. {minimum}{averageLine}",
   "BUDGETFORECAST_SHOP.average": " / Moy. {average}G",
   "BUDGETFORECAST_SHOP.deletion": "{icon}{gold}G",
@@ -22,5 +22,6 @@
   "BUDGETFORECAST_SHOP.note.revealed": "(révélé ; non récupéré)",
   "BUDGETFORECAST_SHOP.note.cardsPending": "(choix de carte en attente)",
   "BUDGETFORECAST_SHOP.sealTurns": "{icon} Tours estimés : normal {normal} / élite {elite}",
-  "BUDGETFORECAST_SHOP.note.relicRoute": "(variation à l arrivée si choisi)"
+  "BUDGETFORECAST_SHOP.note.relicRoute": "(variation à l arrivée si choisi)",
+  "BUDGETFORECAST_SHOP.expandedControls": "Maj + molette : changer de stratégie\nMaj + clic droit : partager le trajet"
 }
