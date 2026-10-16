@@ -1,5 +1,5 @@
 {
-  "BUDGETFORECAST.mod_title": "BudgetForecast",
+  "BUDGETFORECAST.mod_title": "Goldprognose",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.title": "Angenommene Züge: normal",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.hover.desc": "Für die Ausgaben mit Goldsiegel. Werden vom Mindest- und Durchschnittswert abgezogen.",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.sliderFormat": "{0:0.0}",

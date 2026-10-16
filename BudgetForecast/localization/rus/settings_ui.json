@@ -1,5 +1,5 @@
 {
-  "BUDGETFORECAST.mod_title": "BudgetForecast",
+  "BUDGETFORECAST.mod_title": "Прогноз золота",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.title": "Ожидаемые ходы: обычный бой",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.hover.desc": "Для расчёта расходов реликвии «Золотая печать». Вычитаются из минимума и среднего.",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.sliderFormat": "{0:0.0}",

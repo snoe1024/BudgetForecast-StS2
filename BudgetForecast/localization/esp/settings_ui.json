@@ -1,5 +1,5 @@
 {
-  "BUDGETFORECAST.mod_title": "BudgetForecast",
+  "BUDGETFORECAST.mod_title": "Pronóstico de presupuesto",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.title": "Turnos estimados: combate normal",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.hover.desc": "Se usa para calcular el gasto de Sello dorado. Se resta tanto del mínimo como de la media.",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.sliderFormat": "{0:0.0}",

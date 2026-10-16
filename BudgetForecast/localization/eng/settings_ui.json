@@ -1,5 +1,5 @@
 {
-  "BUDGETFORECAST.mod_title": "BudgetForecast",
+  "BUDGETFORECAST.mod_title": "Budget Forecast",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.title": "Assumed Turns: Normal Combat",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.hover.desc": "Used to calculate Seal of Gold expenses. Deducted from both minimum and average Gold.",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.sliderFormat": "{0:0.0}",

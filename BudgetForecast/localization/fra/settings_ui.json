@@ -1,5 +1,5 @@
 {
-  "BUDGETFORECAST.mod_title": "BudgetForecast",
+  "BUDGETFORECAST.mod_title": "Prévision du budget",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.title": "Tours estimés : combat normal",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.hover.desc": "Sert à calculer les dépenses liées à Sceau doré. Déduites du minimum et de la moyenne.",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.sliderFormat": "{0:0.0}",

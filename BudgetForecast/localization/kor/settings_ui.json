@@ -1,5 +1,5 @@
 {
-  "BUDGETFORECAST.mod_title": "BudgetForecast",
+  "BUDGETFORECAST.mod_title": "소지금 예보",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.title": "일반 전투 예상 턴 수",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.hover.desc": "황금 인장 지출 계산에 사용합니다. 최솟값과 평균값 모두에서 차감합니다.",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.sliderFormat": "{0:0.0}",

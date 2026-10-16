@@ -1,5 +1,5 @@
 {
-  "BUDGETFORECAST.mod_title": "BudgetForecast",
+  "BUDGETFORECAST.mod_title": "金幣預報",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.title": "普通戰鬥預計回合數",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.hover.desc": "用於計算黃金印記的支出。最低值和平均值均會扣除。",
   "BUDGETFORECAST-NORMAL_COMBAT_TURNS.sliderFormat": "{0:0.0}",
