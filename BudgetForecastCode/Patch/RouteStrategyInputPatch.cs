@@ -12,7 +12,7 @@ internal static class RouteStrategyInputPatch
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
     private static bool Prefix(NMapScreen __instance, InputEvent inputEvent) =>
-        !RoutePreview.HandleWheel(__instance, inputEvent);
+        !RoutePreview.HandleInput(__instance, inputEvent);
 }
 
 [HarmonyPatch(typeof(NMapScreen), "_GuiInput")]
@@ -21,5 +21,5 @@ internal static class RouteStrategyGuiInputPatch
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
     private static bool Prefix(NMapScreen __instance, InputEvent inputEvent) =>
-        !RoutePreview.HandleWheel(__instance, inputEvent);
+        !RoutePreview.HandleInput(__instance, inputEvent);
 }

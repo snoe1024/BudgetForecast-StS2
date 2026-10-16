@@ -1,6 +1,6 @@
 {
   "BUDGETFORECAST_SHOP.title": "Золото по прибытии в магазин",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Удерживайте Shift и прокручивайте колесо для смены стратегии[/p]",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift + колесо: стратегия / Shift + ПКМ: поделиться маршрутом[/p]",
   "BUDGETFORECAST_SHOP.gold": "Минимум: {minimum}G{averageLine}",
   "BUDGETFORECAST_SHOP.average": ", Среднее: {average}G",
   "BUDGETFORECAST_SHOP.deletion": "{icon}: {gold}G",

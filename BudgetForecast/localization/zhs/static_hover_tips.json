@@ -1,6 +1,6 @@
 {
   "BUDGETFORECAST_SHOP.title": "到达商店时的金币",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]按住Shift并滚动鼠标滚轮切换策略[/p]",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift+滚轮：切换策略 / Shift+右键：分享路线[/p]",
   "BUDGETFORECAST_SHOP.gold": "最低值：{minimum}G{averageLine}",
   "BUDGETFORECAST_SHOP.average": ", 平均值：{average}G",
   "BUDGETFORECAST_SHOP.deletion": "{icon}: {gold}G",

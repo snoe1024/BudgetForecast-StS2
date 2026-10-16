@@ -1,6 +1,6 @@
 {
   "BUDGETFORECAST_SHOP.title": "상점 도착 시 골드",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift를 누른 채 스크롤하여 전략을 전환합니다[/p]",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift + 휠: 전략 변경 / Shift + 우클릭: 경로 공유[/p]",
   "BUDGETFORECAST_SHOP.gold": "최솟값: {minimum}G{averageLine}",
   "BUDGETFORECAST_SHOP.average": ", 평균값: {average}G",
   "BUDGETFORECAST_SHOP.deletion": "{icon}: {gold}G",

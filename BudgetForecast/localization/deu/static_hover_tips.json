@@ -1,6 +1,6 @@
 {
   "BUDGETFORECAST_SHOP.title": "Gold bei Ankunft im Laden",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift halten und scrollen, um die Strategie zu wechseln[/p]",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Umschalt + Mausrad: Strategie / Umschalt + Rechtsklick: Route teilen[/p]",
   "BUDGETFORECAST_SHOP.gold": "Minimum: {minimum}G{averageLine}",
   "BUDGETFORECAST_SHOP.average": ", Durchschnitt: {average}G",
   "BUDGETFORECAST_SHOP.deletion": "{icon}: {gold}G",

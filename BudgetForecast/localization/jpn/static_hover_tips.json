@@ -1,6 +1,6 @@
 {
   "BUDGETFORECAST_SHOP.title": "ショップ到着時の所持金",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift＋ホイールで戦略を切り替え[/p]",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Shift＋ホイールで戦略切替 / Shift＋右クリックでルート共有[/p]",
   "BUDGETFORECAST_SHOP.gold": "最低値: {minimum}G{averageLine}",
   "BUDGETFORECAST_SHOP.average": ", 平均値: {average}G",
   "BUDGETFORECAST_SHOP.deletion": "{icon}: {gold}G",

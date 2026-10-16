@@ -24,9 +24,58 @@ internal static class RoutePreview
         public RouteStrategy Strategy = RouteStrategy.Balance;
         public string? ContextKey;
         public ulong NextForecastRefresh;
+        public bool SuppressRightRelease;
     }
 
     private static readonly ConditionalWeakTable<NMapScreen, ScreenState> Screens = new();
+
+    public static bool HandleInput(NMapScreen screen, InputEvent inputEvent)
+    {
+        if (Screens.TryGetValue(screen, out var state))
+        {
+            if (inputEvent is InputEventMouseButton { ButtonIndex: MouseButton.Right, Pressed: false } &&
+                state.SuppressRightRelease)
+            {
+                state.SuppressRightRelease = false;
+                screen.GetViewport().SetInputAsHandled();
+                return true;
+            }
+            if (inputEvent is InputEventMouseButton { ButtonIndex: MouseButton.Right, Pressed: true, ShiftPressed: true } &&
+                CanUseHoveredShop(screen, state))
+            {
+                screen.GetViewport().SetInputAsHandled();
+                state.SuppressRightRelease = true;
+                try
+                {
+                    var current = state.Run!.CurrentMapPoint;
+                    if (current == null) return true;
+                    var path = GetRoute(screen, state.Run, current, state.Owner!.Point, out _);
+                    if (path == null) return true;
+                    var corners = RouteCenters(screen, current, path, screen.Drawings.GetGlobalTransform().AffineInverse());
+                    RouteStroke.Draw(corners,
+                        point => screen.Drawings.BeginLineLocal(point, DrawingMode.Drawing),
+                        screen.Drawings.UpdateCurrentLinePositionLocal, screen.Drawings.StopLineLocal);
+                    MainFile.Logger.Info($"Shared route stroke: strategy={state.Strategy}; nodes={corners.Length}");
+                }
+                catch (Exception exception)
+                {
+                    MainFile.Logger.Warn($"Route sharing failed: {exception}");
+                }
+                return true;
+            }
+        }
+        return HandleWheel(screen, inputEvent);
+    }
+
+    private static bool CanUseHoveredShop(NMapScreen screen, ScreenState state) =>
+        state.Owner != null && state.Run != null && GodotObject.IsInstanceValid(state.Owner) &&
+        screen.IsOpen && !screen.IsTraveling && ActiveScreenContext.Instance.IsCurrent(screen) &&
+        screen.Drawings.GetLocalDrawingMode() == DrawingMode.None && !screen.Drawings.IsLocalDrawing() &&
+        Traverse.Create(screen).Field("_drawingInput").GetValue<NMapDrawingInput>() == null &&
+        !Traverse.Create(screen).Field("_isInputDisabled").GetValue<bool>() &&
+        !(Traverse.Create(screen).Field("_actAnimTween").GetValue<Tween>()?.IsRunning() ?? false) &&
+        Traverse.Create(state.Owner).Field("_isHovered").GetValue<bool>() &&
+        new Rect2(Vector2.Zero, state.Owner.Size).HasPoint(state.Owner.GetLocalMousePosition());
 
     public static IReadOnlyList<MapPoint>? GetRoute(NMapScreen screen, IRunState run,
         MapPoint current, MapPoint shop, out bool cacheHit)
@@ -157,19 +206,23 @@ internal static class RoutePreview
     }
 
     private static void UpdatePoints(NMapScreen screen, ScreenState state)
+        => state.Line!.Points = RouteCenters(screen, state.Source!, state.Path!, state.Line.GetGlobalTransform().AffineInverse());
+
+    private static Vector2[] RouteCenters(NMapScreen screen, MapPoint source, IReadOnlyList<MapPoint> path,
+        Transform2D inverseGlobal)
     {
         var nodes = Traverse.Create(screen).Field("_mapPointDictionary")
             .GetValue<Dictionary<MapCoord, NMapPoint>>();
-        var route = new[] { state.Source! }.Concat(state.Path!).ToArray();
+        var route = new[] { source }.Concat(path).ToArray();
         var positions = new Vector2[route.Length];
         for (var i = 0; i < route.Length; i++)
         {
             var node = nodes[route[i].coord];
             // Icons have their own size, pivot, hover scale and rotation. Connect their visual centers.
             var icon = node.GetNodeOrNull<Control>("%Icon") ?? node;
-            positions[i] = state.Line!.ToLocal(icon.GetGlobalTransform() * (icon.Size * 0.5f));
+            positions[i] = inverseGlobal * (icon.GetGlobalTransform() * (icon.Size * 0.5f));
         }
-        state.Line!.Points = positions;
+        return positions;
     }
 
     public static void HideFor(NNormalMapPoint owner)

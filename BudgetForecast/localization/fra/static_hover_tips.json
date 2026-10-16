@@ -1,6 +1,6 @@
 {
   "BUDGETFORECAST_SHOP.title": "Or à l’arrivée à la boutique",
-  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Maintenez Shift et faites défiler pour changer de stratégie[/p]",
+  "BUDGETFORECAST_SHOP.description": "[p]{strategy}[/p]{players}[p]Maj + molette : stratégie / Maj + clic droit : partager le trajet[/p]",
   "BUDGETFORECAST_SHOP.gold": "Minimum : {minimum}G{averageLine}",
   "BUDGETFORECAST_SHOP.average": ", Moyenne : {average}G",
   "BUDGETFORECAST_SHOP.deletion": "{icon}: {gold}G",
